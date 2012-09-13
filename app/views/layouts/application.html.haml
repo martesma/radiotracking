@@ -2,7 +2,7 @@
 !!!
 %html
   %head
-    = javascript_tag "RT_ROOT = '#{RAILS_URL_ROOT}'"
+    = javascript_tag "RT_ROOT = '#{RAILS_ROOT + "/public"}'"
     = render 'layouts/head'
   %body
     .container
