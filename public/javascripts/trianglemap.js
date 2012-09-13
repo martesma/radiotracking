@@ -2,6 +2,7 @@ var TMap = {
     markers: {},
     marker_arr: [],
     polyline_arr: [],
+    mutable_path_arr: [],
 
     //url
     triangleUrl: '/triangulate/map',
@@ -38,7 +39,7 @@ var TMap = {
 	TMap.map = new google.maps.Map(document.getElementById("map_canvas"),
 					TMap.getOptions(latlng));
 	TMap.drawPathMarkers(json);
-	TMap.drawPolylines(json);
+	TMap.drawPathLines(json);
     },
 
     // Update the map
@@ -123,6 +124,10 @@ var TMap = {
 	);
     },
 
+    addComplexPolyline: function(path) {
+
+    },
+
     // Draw markers
     drawMarkers: function(json) {
 	$.each(json.points,
@@ -143,6 +148,25 @@ var TMap = {
 	       function(i, path) {
 		   TMap.addPolyline(path);
 	       });
+    },
+
+    drawPathlines: function(json) {
+	var collect = Array.prototype.map;
+	mutable_path_arr = MVCArray(
+	    collect.call(json.paths,
+			 function(path) {
+			     return(google.maps.LatLng(path.lat, path.lng);
+			})
+	);
+        var polyline = new google.maps.Polyline(
+	    {
+		path: mutable_path_arr,
+		strokeColor: "#00bb00",
+		strokeOpacity: 0.8,
+		strokeWeight: 2,
+		map: TMap.map
+	    }
+	);	
     },
 
     markerClick: function(marker) {
@@ -198,54 +222,6 @@ var TMap = {
                 $("#safe_places_details").html(html)
             }
         });
-    },
-
-    removeSafePlace: function(user_id, sp_id) {
-	google.maps.event.clearInstanceListeners(TMap.markers[sp_id]);
-	TMap.markers[sp_id].setMap(null);
-	$.ajax({
-            url: TMap.safePlacesUrl + '/' + sp_id,
-            type: "PUT",
-            success: function(html) {
-		$("#safe_places_details").html(html)
-            }
-	});
-	$.ajax({
-            url: TMap.safePlacesUrl + '/0/delete_schedule',
-            type: "GET",
-            success: function(html) {
-		$("#schedule_details").html(html)
-            }
-	});
-    },
-
-    newSafePlace: function(loc) {
-	var name = prompt("Safe place name?");
-	if(!name) {
-            name = "Unnamed";
-	}
-	var data = {
-            lat: loc.lat(),
-            lng: loc.lng(),
-            name: name
-	};
-	$.ajax({
-	    url: TMap.safePlacesUrl,
-	    type: "POST",
-	    data: data,
-	    dataType: 'json',
-	    success: function(point) {
-		TMap.addMarker(point);
-		TMap.map.setZoom(15);
-	    }
-	});
-	$.ajax({
-            url: TMap.safePlacesUrl + '/0',
-            type: "PUT",
-            success: function(html) {
-		$("#safe_places_details").html(html)
-            }
-	});
     }
 };
 

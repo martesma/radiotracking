@@ -23,7 +23,7 @@ class MappingController < ApplicationController
                  :name => rt.date.strftime(STRFTIME)
                } ]
       end
-      paths = []
+      paths = points
       json = { :points => points, :paths => paths }
     end
     render :json => json
