@@ -7,8 +7,8 @@ var TMap = {
     //url
     triangleUrl: '/triangulate/map',
     basicPathUrl: '/mapping/basic_path',
-    smallMarker: RT_ROOT + '/images/small_marker.png',
-    animalFrame: RT_ROOT + '/images/map_flag.png',
+    smallMarker: '/images/small_marker.png',
+    animalFrame: '/images/map_flag.png',
 
     // options
     getOptions: function(latlng) {
