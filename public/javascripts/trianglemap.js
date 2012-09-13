@@ -1,6 +1,7 @@
 var TMap = {
     // markers, in order. Structure:
-    // rt.id => {marker: the_marker, point: point, active: t/f, overlay: t/f }
+    // rt.id => {marker: the_marker, point: point, 
+    // title: title, active: t/f, overlay: t/f }
     markers: {},
     // gotta keep track of the order of the markers.... (fucking javascript)
     marker_arr: [],
@@ -77,21 +78,22 @@ var TMap = {
     },
 
     centerRTMap: function(id) {
-	TMap.center(TMap.markers[id].point.lat, TMap.markers[id].point.lng);
+	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
+					      TMap.markers[id].point.lng);
+	TMap.center(position);
 	// for now clear all overlays
 	for(k in TMap.overlay_arr) {
 	    TMap.overlays[k].overlay.setMap(null);
 	    TMap.markers[k].marker.setIcon(TMap.smallMarker);
+	    TMap.markers[k].overlay = false;
 	    delete TMap.overlays[k];
 	}
 	TMap.overlay_arr = [];
 	TMap.markers[id].marker.setIcon(TMap.animalFrame);
-	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
-					      TMap.markers[id].point.lng);
 	var title = TMap.markers[id].point.name + ": " +
 	    TMap.markers[id].point.lat + ", " +
 	    TMap.markers[id].point.lng;
-	TMap.overlaySmallImage(id, position, TMap.animalImage, title);
+	TMap.overlaySmallImage(id, TMap.animalImage);
     },
 
     // Clear markers and listeners
@@ -115,18 +117,19 @@ var TMap = {
 	    );
     },
 
-    overlaySmallImage: function(marker_id, position, image, title) {
-	var size = new google.maps.Size(smallImageOptions.size.x, 
-					smallImageOptions.size.y);
-	var anchor = new google.maps.Point(smallImageOptions.anchor.x,
-					   smallImageOptions.anchor.y);
+    overlaySmallImage: function(marker_id, image) {
+	var position = new google.maps.LatLng(TMap.markers[marker_id].point.lat, TMap.markers[marker_id].point.lng);
+	var size = new google.maps.Size(TMap.smallImageOptions.size.x, 
+					TMap.smallImageOptions.size.y);
+	var anchor = new google.maps.Point(TMap.smallImageOptions.anchor.x,
+					   TMap.smallImageOptions.anchor.y);
 	var markerImage = new google.maps.MarkerImage(TMap.animalImage, null, null, anchor, size);
 	TMap.overlays[marker_id] = {
 	    overlay: new google.maps.Marker({
 		position: position,
 		map: TMap.map,
 		icon: image,
-		title: title
+		title: TMap.markers[marker_id].title
 	    })
 	}
 	TMap.overlay_arr.push(marker_id);
@@ -149,12 +152,13 @@ var TMap = {
 	TMap.markers[point.id] = {
 	    marker: new google.maps.Marker(marker_options),
 	    point: point,
+	    title: title,
 	    active: true,
 	    overlay: false
 	};
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
-	    TMap.overlaySmallImage(point.id, position, TMap.animalImage, title);
+	    TMap.overlaySmallImage(point.id, TMap.animalImage);
 	}
     },
 
