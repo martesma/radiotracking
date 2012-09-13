@@ -18,7 +18,7 @@ var TMap = {
     },
 
     // Create the map
-    create: function(json) {
+    createTriang: function(json) {
 	var latlng = new google.maps.LatLng(json.points[0].lat,
 					    json.points[0].lng);
 	TMap.map = new google.maps.Map(document.getElementById("map_canvas"),
@@ -30,7 +30,15 @@ var TMap = {
 	});
 	TMap.drawMarkers(json);
 	TMap.drawPolylines(json);
-	// TMap.setEvents();
+    },
+
+    createAnimalPath: function(json) {
+	var latlng = new google.maps.LatLng(json.points[0].lat,
+					    json.points[0].lng);
+	TMap.map = new google.maps.Map(document.getElementById("map_canvas"),
+					TMap.getOptions(latlng));
+	TMap.drawPathMarkers(json);
+	TMap.drawPolylines(json);
     },
 
     // Update the map
@@ -88,6 +96,18 @@ var TMap = {
 	*/
     },
 
+    addPathMarker: function(point) {
+	TMap.markers[point.id] =
+	    new google.maps.Marker(
+		{
+		    position: new google.maps.LatLng(point.lat, point.lng),
+		    map: TMap.map,
+		    draggable: false,
+		    title: point.name + ": " + point.lat + ", " + point.lng
+		}
+	    );
+    },
+
     addPolyline: function(path) {
         var polyline = new google.maps.Polyline(
 	    {
@@ -108,6 +128,13 @@ var TMap = {
 	$.each(json.points,
 	       function(i, point) {
 		   TMap.addMarker(point);
+	       });
+    },
+
+    drawPathMarkers: function(json) {
+	$.each(json.points,
+	       function(i, point) {
+		   TMap.addPathMarker(point);
 	       });
     },
 
