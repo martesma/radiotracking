@@ -108,6 +108,7 @@ var TMap = {
 	    title: point.name + ": " + point.lat + ", " + point.lng
 	}
 	if(last_one) {
+	    alert('the last marker!');
 	    marker_options.icon = TMap.animalFrame;
 	}
 	TMap.markers[point.id] =
@@ -145,7 +146,7 @@ var TMap = {
 	$.each(json.points,
 	       function(i, point) {
 		   // This sucks.
-		   var last_one = json.end == point ? true : false;
+		   var last_one = json.points.length == (i - 1) ? true : false;
 		   TMap.addPathMarker(i, point, last_one);
 	       });
     },
