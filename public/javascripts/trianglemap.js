@@ -146,7 +146,7 @@ var TMap = {
 	$.each(json.points,
 	       function(i, point) {
 		   // This sucks.
-		   var last_one = json.points.length == (i - 1) ? true : false;
+		   var last_one = json.points.length == (i + 1) ? true : false;
 		   TMap.addPathMarker(i, point, last_one);
 	       });
     },
