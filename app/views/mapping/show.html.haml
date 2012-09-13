@@ -1,11 +1,23 @@
 #mapping
+  #animal
+    - if @ra.nil?
+      This animal does not exist, and not just existentially.
+    - else
+      #nickname
+        = @ra.nickname
+      #animal_id
+        = "ID: #{@ra.animal_id}"
+      #frequency
+        = "Freq: #{@ra.frequency}"
+      #microchip
+        = "Chip: #{@ra.microchip}"
   #hitlist
     - if @rts.empty?
       No telemetry found.
     - else
       - @rts.each do |rt|
-        %p.clear
-          = rt.date.strftime(STRFTIME)
+        = rt.date.strftime(STRFTIME)
+        %br
 
   #map
     #map_canvas
