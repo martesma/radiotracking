@@ -7,6 +7,8 @@ var TMap = {
     //url
     triangleUrl: '/triangulate/map',
     basicPathUrl: '/mapping/basic_path',
+    smallMarker: RT_ROOT + '/images/small_marker.png',
+    animalFrame: RT_ROOT + '/images/map_flag.png',
 
     // options
     getOptions: function(latlng) {
@@ -97,16 +99,16 @@ var TMap = {
 	*/
     },
 
-    addPathMarker: function(point) {
+    addPathMarker: function(i, point, last_one) {
+	var marker_options = {
+	    position: new google.maps.LatLng(point.lat, point.lng),
+	    map: TMap.map,
+	    draggable: false,
+	    icon: TMap.smallMarker,
+	    title: point.name + ": " + point.lat + ", " + point.lng
+	}
 	TMap.markers[point.id] =
-	    new google.maps.Marker(
-		{
-		    position: new google.maps.LatLng(point.lat, point.lng),
-		    map: TMap.map,
-		    draggable: false,
-		    title: point.name + ": " + point.lat + ", " + point.lng
-		}
-	    );
+	    new google.maps.Marker(marker_options);
     },
 
     addPolyline: function(path) {
@@ -139,7 +141,9 @@ var TMap = {
     drawPathMarkers: function(json) {
 	$.each(json.points,
 	       function(i, point) {
-		   TMap.addPathMarker(point);
+		   // This sucks.
+		   var last_one = json.end == point ? true : false;
+		   TMap.addPathMarker(i, point, last_one);
 	       });
     },
 

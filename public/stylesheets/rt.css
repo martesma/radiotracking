@@ -118,3 +118,16 @@ tr.paarisarv td {
 #triangulate #map {
   float: left;
   padding-left: 20px; }
+
+#mapping #animal {
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-size: larger; }
+  #mapping #animal #nickname, #mapping #animal #animal_id, #mapping #animal #frequency, #mapping #animal #microchip {
+    display: inline;
+    padding-left: 20px; }
+#mapping #hitlist {
+  float: left; }
+#mapping #map {
+  float: left;
+  padding-left: 20px; }
