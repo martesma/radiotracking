@@ -5,6 +5,7 @@ var TMap = {
 
     //url
     triangleUrl: '/triangulate/map',
+    basicPathUrl: '/mapping/basic_path',
 
     // options
     getOptions: function(latlng) {

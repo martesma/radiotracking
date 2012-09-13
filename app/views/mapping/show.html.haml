@@ -22,3 +22,16 @@
   #map
     #map_canvas
       
+:javascript
+  var data = {
+      id: #{@ra.nil? ? 0 : @ra.id}
+  }
+  $.ajax({
+      url: TMap.basicPathUrl,
+      type: "POST",
+      data: data,
+      dataType: 'json',
+      success: function(json) {
+          TMap.create(json);
+      }
+  });
