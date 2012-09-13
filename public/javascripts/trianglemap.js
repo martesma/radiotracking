@@ -154,7 +154,7 @@ var TMap = {
 	function latLngify(path) {
 	    return(google.maps.LatLng(path.lat, path.lng));
 	}
-	mutable_path_arr = MVCArray(json.paths.map(latLngify));
+	mutable_path_arr = new google.maps.MVCArray(json.paths.map(latLngify));
         var polyline = new google.maps.Polyline(
 	    {
 		path: mutable_path_arr,
