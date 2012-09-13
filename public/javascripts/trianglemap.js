@@ -150,7 +150,7 @@ var TMap = {
 	    marker: new google.maps.Marker(marker_options),
 	    point: point,
 	    active: true,
-	    overlay: false;
+	    overlay: false
 	};
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
