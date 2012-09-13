@@ -150,7 +150,7 @@ var TMap = {
 	       });
     },
 
-    drawPathlines: function(json) {
+    drawPathLines: function(json) {
 	function latLngify(path) {
 	    return(google.maps.LatLng(path.lat, path.lng));
 	}
