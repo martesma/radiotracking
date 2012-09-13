@@ -1,0 +1,4 @@
+Options -MultiViews
+PassengerResolveSymlinksInDocumentRoot on
+RailsEnv development
+SetEnv GEM_HOME /home2/martesma/ruby/gems

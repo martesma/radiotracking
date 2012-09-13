@@ -1,0 +1,14 @@
+!!! XML
+!!!
+%html
+  %head
+    = render 'layouts/head'
+  %body
+    .container
+      %div{:id => "menu", :class => "span-20 round"}
+        - unless request.request_uri =~ %r{triangulation}
+          = render 'layouts/menu'
+      %br.clear
+      %br.clear
+      %div{:id => "content", :class => "span-24 round"}
+        = yield

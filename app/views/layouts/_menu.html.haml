@@ -1,0 +1,16 @@
+-if @current_user
+  %ul
+    %li
+      %a{:href => "/released_animal"} Animal List
+    %li
+      %a{:href => "/released_animal/new"} New Animal
+    %li
+      %a{:href => "/track"} Radiotracking Overview
+    %li
+      %a{:href => "/track/new"} New Radiotracking Data
+    %li#logout
+      = "(#{@current_user.username})"
+      %a{:href => "/logout"}
+        logout
+
+    

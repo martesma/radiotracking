@@ -1,0 +1,5 @@
+STRFDATE = "%d %m %Y"
+STRFTIME = "%d %b %Y %H:%M"
+MYSQLDATE = "%Y-%m-%d"
+MYSQLTIME = "%H:%M"
+MYSQLDATETIME = "%Y-%m-%d %H:%M"

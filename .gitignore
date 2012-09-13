@@ -1,0 +1,8 @@
+.bundle
+log/*.log
+tmp/**/*
+tmp/*
+*~
+*.back
+*.sql
+vendor/*

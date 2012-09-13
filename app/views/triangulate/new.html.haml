@@ -1,0 +1,90 @@
+#triangulate
+  %form{:id => "new_location_form"}
+    %p.clear
+      %label{:for => "lng1"} First loc E (lng)
+      %br
+      %input{:type => "text", :name => "lng1", :id => "lng1"}
+      %br
+      %label{:for => "lng1D"} or DMS
+      %br
+      %input{:type => "text", :name => "lng1D", :id => "lng1D", :size => 5}
+      %input{:type => "text", :name => "lng1M", :id => "lng1M", :size => 5}
+      %input{:type => "text", :name => "lng1S", :id => "lng1S", :size => 5}
+      %br
+      %label{:for => "lat1"} First loc N (lat)
+      %br
+      %input{:type => "text", :name => "lat1", :id => "lat1"}
+      %br
+      %label{:for => "lat1D"} or DMS
+      %br
+      %input{:type => "text", :name => "lat1D", :id => "lat1D", :size => 5}
+      %input{:type => "text", :name => "lat1M", :id => "lat1M", :size => 5}
+      %input{:type => "text", :name => "lat1S", :id => "lat1S", :size => 5}
+      %br
+      %label{:for => "dir1"} First bearing
+      %br
+      %input{:type => "text", :name => "dir1", :id => "dir1"}
+    %p.clear
+      %label{:for => "lng2"} Second loc E (lng)
+      %br
+      %input{:type => "text", :name => "lng2", :id => "lng2"}
+      %br
+      %label{:for => "lng2D"} or DMS
+      %br
+      %input{:type => "text", :name => "lng2D", :id => "lng2D", :size => 5}
+      %input{:type => "text", :name => "lng2M", :id => "lng2M", :size => 5}
+      %input{:type => "text", :name => "lng2S", :id => "lng2S", :size => 5}
+      %br
+      %label{:for => "lat2"} Second loc N (lat)
+      %br
+      %input{:type => "text", :name => "lat2", :id => "lat2"}
+      %br
+      %label{:for => "lat2D"} or DMS
+      %br
+      %input{:type => "text", :name => "lat2D", :id => "lat2D", :size => 5}
+      %input{:type => "text", :name => "lat2M", :id => "lat2M", :size => 5}
+      %input{:type => "text", :name => "lat2S", :id => "lat2S", :size => 5}
+      %br
+      %label{:for => "dir2"} Second bearing
+      %br
+      %input{:type => "text", :name => "dir2", :id => "dir2"}
+    %p.clear
+      %input{:type => "submit"}
+
+  #map
+    #map_canvas
+  
+:javascript
+  $("#new_location_form").submit(function() {
+      var data = {
+          lng1: $("#lng1").val(),
+          lng1D: $("#lng1D").val(),
+          lng1M: $("#lng1M").val(),
+          lng1S: $("#lng1S").val(),          
+          lat1: $("#lat1").val(),
+          lat1D: $("#lat1D").val(),
+          lat1M: $("#lat1M").val(),
+          lat1S: $("#lat1S").val(),                    
+          dir1: $("#dir1").val(),
+          lng2: $("#lng2").val(),
+          lng2D: $("#lng2D").val(),
+          lng2M: $("#lng2M").val(),
+          lng2S: $("#lng2S").val(),                    
+          lat2: $("#lat2").val(),
+          lat2D: $("#lat2D").val(),
+          lat2M: $("#lat2M").val(),
+          lat2S: $("#lat2S").val(),                    
+          dir2: $("#dir2").val()
+      };
+      $.ajax({
+          url: TMap.triangleUrl,
+          type: "POST",
+          data: data,
+          dataType: 'json',
+          success: function(json) {
+              TMap.create(json);
+          }
+      });
+      return false;
+  });
+  
