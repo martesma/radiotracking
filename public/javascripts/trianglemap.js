@@ -37,8 +37,9 @@ var TMap = {
     },
 
     createAnimalPath: function(json) {
-	var latlng = new google.maps.LatLng(json.points.end.lat,
-					    json.points.end.lng);
+	var last_point = json.points[json.points.length - 1];
+	var latlng = new google.maps.LatLng(last_point.lat,
+					    last_point.lng);
 	TMap.map = new google.maps.Map(document.getElementById("map_canvas"),
 					TMap.getOptions(latlng));
 	TMap.drawPathMarkers(json);
