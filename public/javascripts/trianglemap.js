@@ -8,7 +8,8 @@ var TMap = {
     triangleUrl: '/triangulate/map',
     basicPathUrl: '/mapping/basic_path',
     smallMarker: '/images/small_marker.png',
-    animalFrame: '/images/map_flag.png',
+    animalFrame: '/images/map_flag3.png',
+    animalImage: '/images/smaller_lutreola.png',
 
     // options
     getOptions: function(latlng) {
@@ -100,19 +101,29 @@ var TMap = {
     },
 
     addPathMarker: function(i, point, last_one) {
+	var position = new google.maps.LatLng(point.lat, point.lng);
 	var marker_options = {
-	    position: new google.maps.LatLng(point.lat, point.lng),
+	    position: position,
 	    map: TMap.map,
 	    draggable: false,
 	    icon: TMap.smallMarker,
 	    title: point.name + ": " + point.lat + ", " + point.lng
 	}
 	if(last_one) {
-	    alert('the last marker!');
 	    marker_options.icon = TMap.animalFrame;
 	}
 	TMap.markers[point.id] =
 	    new google.maps.Marker(marker_options);
+	if(last_one) {
+	    var size = new google.maps.Size(34, 36);
+	    var anchor new google.maps.Point(17, 15);
+	    var markerImage = new google.maps.MarkerImage(TMap.animalImage, null, null, anchor, size);
+	    new google.maps.Marker({
+		position: position,
+		map: TMap.map,
+		icon: markerImage
+	    });
+	}
     },
 
     addPolyline: function(path) {
