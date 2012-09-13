@@ -22,6 +22,8 @@ var TMap = {
 	size: { x: 28, y: 30 },
 	anchor: { x: 15, y: 48 }
     },
+    normalLinkColor: '#55ee08',
+    specialLinkColor: '#ee5508',
 
     // options
     getOptions: function(latlng) {
@@ -77,18 +79,21 @@ var TMap = {
 	TMap.map.setCenter(new google.maps.LatLng(lat, lng));
     },
 
+    // This needs to be broken up into smaller functions
     centerRTMap: function(id) {
 	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
 					      TMap.markers[id].point.lng);
 	TMap.center(position);
 	// for now clear all overlays
 	for(k in TMap.overlay_arr) {
+	    $("#rtdate" + k).css('color', TMap.normalLinkColor);
 	    TMap.overlays[k].overlay.setMap(null);
 	    TMap.markers[k].marker.setIcon(TMap.smallMarker);
 	    TMap.markers[k].overlay = false;
 	    delete TMap.overlays[k];
 	}
 	TMap.overlay_arr = [];
+	$("#rtdate" + id).css('color', TMap.specialLinkColor);
 	TMap.markers[id].marker.setIcon(TMap.animalFrame);
 	var title = TMap.markers[id].point.name + ": " +
 	    TMap.markers[id].point.lat + ", " +
@@ -117,23 +122,25 @@ var TMap = {
 	    );
     },
 
-    overlaySmallImage: function(marker_id, image) {
-	var position = new google.maps.LatLng(TMap.markers[marker_id].point.lat, TMap.markers[marker_id].point.lng);
+    overlaySmallImage: function(id, image) {
+	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
+					      TMap.markers[id].point.lng);
 	var size = new google.maps.Size(TMap.smallImageOptions.size.x, 
 					TMap.smallImageOptions.size.y);
 	var anchor = new google.maps.Point(TMap.smallImageOptions.anchor.x,
 					   TMap.smallImageOptions.anchor.y);
-	var markerImage = new google.maps.MarkerImage(TMap.animalImage, null, null, anchor, size);
-	TMap.overlays[marker_id] = {
+	var markerImage = new google.maps.MarkerImage(TMap.animalImage, null,
+						      null, anchor, size);
+	TMap.overlays[id] = {
 	    overlay: new google.maps.Marker({
 		position: position,
 		map: TMap.map,
 		icon: image,
-		title: TMap.markers[marker_id].title
+		title: TMap.markers[id].title
 	    })
 	}
-	TMap.overlay_arr.push(marker_id);
-	TMap.markers[marker_id].overlay = true;
+	TMap.overlay_arr.push(id);
+	TMap.markers[id].overlay = true;
     },
 
     addPathMarker: function(i, point, last_one) {
