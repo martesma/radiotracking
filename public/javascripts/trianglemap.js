@@ -151,10 +151,12 @@ var TMap = {
     },
 
     drawPathLines: function(json) {
-	function latLngify(path) {
-	    return(google.maps.LatLng(path.lat, path.lng));
-	}
-	mutable_path_arr = new google.maps.MVCArray(json.paths.map(latLngify));
+	mutable_path_arr = new google.maps.MVCArray();
+	$.each(json.paths,
+	       function(i, path) {
+		   mutable_path_arr.push(new google.maps.LatLng(path.lat,
+								path.lng));
+	       });
         var polyline = new google.maps.Polyline(
 	    {
 		path: mutable_path_arr,
