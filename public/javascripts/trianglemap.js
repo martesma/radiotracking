@@ -151,13 +151,10 @@ var TMap = {
     },
 
     drawPathlines: function(json) {
-	var collect = Array.prototype.map;
-	mutable_path_arr = MVCArray(
-	    collect.call(json.paths,
-			 function(path) {
-			     return(google.maps.LatLng(path.lat, path.lng));
-			 })
-	);
+	function latLngify(path) {
+	    return(google.maps.LatLng(path.lat, path.lng));
+	}
+	mutable_path_arr = MVCArray(json.paths.map(latLngify));
         var polyline = new google.maps.Polyline(
 	    {
 		path: mutable_path_arr,
