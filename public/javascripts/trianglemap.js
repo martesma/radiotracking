@@ -107,6 +107,9 @@ var TMap = {
 	    icon: TMap.smallMarker,
 	    title: point.name + ": " + point.lat + ", " + point.lng
 	}
+	if(last_one) {
+	    marker_options.icon = TMap.animalFrame;
+	}
 	TMap.markers[point.id] =
 	    new google.maps.Marker(marker_options);
     },
