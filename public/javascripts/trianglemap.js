@@ -116,7 +116,7 @@ var TMap = {
 	    new google.maps.Marker(marker_options);
 	if(last_one) {
 	    var size = new google.maps.Size(32, 34);
-	    var anchor = new google.maps.Point(17, 0);
+	    var anchor = new google.maps.Point(17, 48);
 	    var markerImage = new google.maps.MarkerImage(TMap.animalImage, null, null, anchor, size);
 	    new google.maps.Marker({
 		position: position,
