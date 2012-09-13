@@ -17,9 +17,11 @@ class MappingController < ApplicationController
       @rts = Radiotracking.find_all_by_released_animal_id(params['id'],
                                                           :order => [:date])
       points = @rts.inject([]) do |m, rt|
-        m += { :lat => rt.location_of_animal_N,
-          :lng => rt.location_of_animal_E,
-          :name => rt.date.strftime(STRFTIME) }
+        m += [ {
+                 :lat => rt.location_of_animal_N,
+                 :lng => rt.location_of_animal_E,
+                 :name => rt.date.strftime(STRFTIME)
+               } ]
       end
       paths = []
       json = { :points => points, :paths => paths }
