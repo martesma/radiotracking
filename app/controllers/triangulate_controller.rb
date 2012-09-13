@@ -2,6 +2,7 @@ class TriangulateController < ApplicationController
   skip_before_filter :authorize
 
   def new
+    # There is simply nothing here!
   end
 
   def create
