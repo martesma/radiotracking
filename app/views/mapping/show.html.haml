@@ -1,0 +1,12 @@
+#mapping
+  #hitlist
+    - if @rts.empty?
+      No telemetry found.
+    - else
+      - @rts.each do |rt|
+        %p.clear
+          = rt.date.strftime(STRFTIME)
+
+  #map
+    #map_canvas
+      

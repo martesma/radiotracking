@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :only => [],
     :collection => { :login => [ :get, :post ], :logout => :get }
   map.resources :triangulate, :only => [ :index, :new, :create ], :collection => { :map => :post }
+  map.resources :mapping, :only => [ :show ]
 
   map.connect '/login', :controller => 'users', :action => 'login'
   map.connect '/logout', :controller => 'users', :action => 'logout'
