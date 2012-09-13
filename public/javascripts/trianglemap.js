@@ -155,8 +155,8 @@ var TMap = {
 	mutable_path_arr = MVCArray(
 	    collect.call(json.paths,
 			 function(path) {
-			     return(google.maps.LatLng(path.lat, path.lng);
-			})
+			     return(google.maps.LatLng(path.lat, path.lng));
+			 })
 	);
         var polyline = new google.maps.Polyline(
 	    {
