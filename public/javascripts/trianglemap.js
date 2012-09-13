@@ -37,8 +37,8 @@ var TMap = {
     },
 
     createAnimalPath: function(json) {
-	var latlng = new google.maps.LatLng(json.points[0].lat,
-					    json.points[0].lng);
+	var latlng = new google.maps.LatLng(json.points.end.lat,
+					    json.points.end.lng);
 	TMap.map = new google.maps.Map(document.getElementById("map_canvas"),
 					TMap.getOptions(latlng));
 	TMap.drawPathMarkers(json);
@@ -115,7 +115,7 @@ var TMap = {
 	TMap.markers[point.id] =
 	    new google.maps.Marker(marker_options);
 	if(last_one) {
-	    var size = new google.maps.Size(32, 34);
+	    var size = new google.maps.Size(30, 31);
 	    var anchor = new google.maps.Point(17, 48);
 	    var markerImage = new google.maps.MarkerImage(TMap.animalImage, null, null, anchor, size);
 	    new google.maps.Marker({
