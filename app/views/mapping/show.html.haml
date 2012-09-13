@@ -17,7 +17,7 @@
     - else
       - @rts.each do |rt|
         %div{:id => "rtdate#{rt.id}"}
-          = render :partial => 'rtdate', :locals => { :id => rt.id }
+          = render :partial => 'rtdate', :locals => { :rt => rt }
 
   #map
     #map_canvas
