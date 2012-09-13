@@ -16,8 +16,8 @@
       No telemetry found.
     - else
       - @rts.each do |rt|
-        = rt.date.strftime(STRFTIME)
-        %br
+        %div{:id => "rtdate#{rt.id}"}
+          = render :partial => 'rtdate', :locals => { :id => rt.id }
 
   #map
     #map_canvas

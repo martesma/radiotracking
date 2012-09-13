@@ -1,15 +1,26 @@
 var TMap = {
+    // markers, in order. Structure:
+    // rt.id => {marker: the_marker, point: point, active: t/f, overlay: t/f }
     markers: {},
+    // gotta keep track of the order of the markers.... (fucking javascript)
     marker_arr: [],
+    // any overlays extant. Structure:
+    // rt.id => { overlay: the_overlay_marker }
+    overlays: {},
+    overlay_arr: [],
     polyline_arr: [],
     mutable_path_arr: [],
 
-    //url
+    // hovno
     triangleUrl: '/triangulate/map',
     basicPathUrl: '/mapping/basic_path',
     smallMarker: '/images/small_marker.png',
     animalFrame: '/images/map_flag3.png',
     animalImage: '/images/smaller_lutreola.png',
+    smallImageOptions: {
+	size: { x: 28, y: 30 },
+	anchor: { x: 15, y: 48 }
+    },
 
     // options
     getOptions: function(latlng) {
@@ -36,6 +47,7 @@ var TMap = {
 	TMap.drawPolylines(json);
     },
 
+    // Eventually split all of this off from the simpler triangulation
     createAnimalPath: function(json) {
 	var last_point = json.points[json.points.length - 1];
 	var latlng = new google.maps.LatLng(last_point.lat,
@@ -64,6 +76,24 @@ var TMap = {
 	TMap.map.setCenter(new google.maps.LatLng(lat, lng));
     },
 
+    centerRTMap: function(id) {
+	TMap.center(TMap.markers[id].point.lat, TMap.markers[id].point.lng);
+	// for now clear all overlays
+	for(k in TMap.overlay_arr) {
+	    TMap.overlays[k].overlay.setMap(null);
+	    TMap.markers[k].marker.setIcon(TMap.smallMarker);
+	    delete TMap.overlays[k];
+	}
+	TMap.overlay_arr = [];
+	TMap.markers[id].marker.setIcon(TMap.animalFrame);
+	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
+					      TMap.markers[id].point.lng);
+	var title = TMap.markers[id].point.name + ": " +
+	    TMap.markers[id].point.lat + ", " +
+	    TMap.markers[id].point.lng;
+	TMap.overlaySmallImage(id, position, TMap.animalImage, title);
+    },
+
     // Clear markers and listeners
     clearMarkers: function(){
 	for (i in TMap.markers){
@@ -83,47 +113,48 @@ var TMap = {
 		    title: point.lat + ", " + point.lng
 		}
 	    );
-	/*
-	google.maps.event.addListener(
-	    TMap.markers[point.id],
-	    'click',
-	    function(event) {
-		TMap.markerClick(TMap.markers[point.id]);
-	    }
-	);
-	google.maps.event.addListener(
-	    TMap.markers[point.id],
-	    'mouseup',
-	    function(event) {
-		TMap.markerCheckPosition(TMap.markers[point.id], point.id);
-	    }
-	);
-	*/
+    },
+
+    overlaySmallImage: function(marker_id, position, image, title) {
+	var size = new google.maps.Size(smallImageOptions.size.x, 
+					smallImageOptions.size.y);
+	var anchor = new google.maps.Point(smallImageOptions.anchor.x,
+					   smallImageOptions.anchor.y);
+	var markerImage = new google.maps.MarkerImage(TMap.animalImage, null, null, anchor, size);
+	TMap.overlays[marker_id] = {
+	    overlay: new google.maps.Marker({
+		position: position,
+		map: TMap.map,
+		icon: image,
+		title: title
+	    })
+	}
+	TMap.overlay_arr.push(marker_id);
+	TMap.markers[marker_id].overlay = true;
     },
 
     addPathMarker: function(i, point, last_one) {
 	var position = new google.maps.LatLng(point.lat, point.lng);
+	var title = point.name + ": " + point.lat + ", " + point.lng;
 	var marker_options = {
 	    position: position,
 	    map: TMap.map,
 	    draggable: false,
 	    icon: TMap.smallMarker,
-	    title: point.name + ": " + point.lat + ", " + point.lng
+	    title: title
 	}
 	if(last_one) {
 	    marker_options.icon = TMap.animalFrame;
 	}
-	TMap.markers[point.id] =
-	    new google.maps.Marker(marker_options);
+	TMap.markers[point.id] = {
+	    marker: new google.maps.Marker(marker_options),
+	    point: point,
+	    active: true,
+	    overlay: false;
+	};
+	TMap.marker_arr.push(point.id);
 	if(last_one) {
-	    var size = new google.maps.Size(28, 30);
-	    var anchor = new google.maps.Point(15, 48);
-	    var markerImage = new google.maps.MarkerImage(TMap.animalImage, null, null, anchor, size);
-	    new google.maps.Marker({
-		position: position,
-		map: TMap.map,
-		icon: markerImage
-	    });
+	    TMap.overlaySmallImage(point.id, position, TMap.animalImage, title);
 	}
     },
 

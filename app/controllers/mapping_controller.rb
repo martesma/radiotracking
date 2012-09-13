@@ -18,6 +18,7 @@ class MappingController < ApplicationController
                                                           :order => [:date])
       points = @rts.inject([]) do |m, rt|
         m += [ {
+                 :id => rt.id,
                  :lat => rt.location_of_animal_N,
                  :lng => rt.location_of_animal_E,
                  :name => rt.date.strftime(STRFTIME)
