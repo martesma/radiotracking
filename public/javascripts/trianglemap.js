@@ -23,8 +23,8 @@ var TMap = {
 	size: { x: 28, y: 30 },
 	anchor: { x: 15, y: 48 }
     },
-    normalLinkColor: '55ee08',
-    specialLinkColor: 'ee5508',
+    normalLinkColor: '#55ee08',
+    specialLinkColor: '#ee5508',
 
     // options
     getOptions: function(latlng) {
@@ -98,15 +98,12 @@ var TMap = {
 		    TMap.markers[id].point.lng);
 	var previous_marker_id = TMap.findOverlainMarker();
 	if(previous_marker_id) {
-	    $("#rtdate" + previous_marker_id).css('color',
-						  TMap.normalLinkColor);
-	    $("#rtdate" + previous_marker_id).css('font-size',
-						  '20px');
+	    $("#rtdate" + previous_marker_id).css('font-style', 'normal');
 	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
 	    TMap.markers[previous_marker_id].overlay.setMap(null);
 	    TMap.markers[previous_marker_id].overlay = null;
 	}
-	$("#rtdate" + id).css('color', TMap.specialLinkColor);
+	$("#rtdate" + id).css('font-style', 'italic');
 	TMap.overlaySmallImage(id, TMap.animalImage);
     },
 
@@ -170,7 +167,7 @@ var TMap = {
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
 	    TMap.overlaySmallImage(point.id, TMap.animalImage);
-	    $("#rtdate" + point.id).css('color', TMap.specialLinkColor);
+	    $("#rtdate" + point.id).css('font-style', 'italic');
 	}
     },
 
