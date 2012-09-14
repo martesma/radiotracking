@@ -88,15 +88,16 @@ var TMap = {
     },
 
     // Center map
-    center: function(lat, lng){
+    center: function(lat, lng) {
+	var zoom = TMap.map.getZoom();
 	TMap.map.setCenter(new google.maps.LatLng(lat, lng));
+	TMap.map.setZoom(zoom);
     },
 
     // This needs to be broken up into smaller functions
     centerRTMap: function(id) {
-	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
-					      TMap.markers[id].point.lng);
-//	TMap.center(position);
+	TMap.center(TMap.markers[id].point.lat,
+		    TMap.markers[id].point.lng);
 	var previous_marker_id = TMap.findOverlainMarker();
 	if(previous_marker_id) {
 	    $("#rtdate" + previous_marker_id).css('color',
