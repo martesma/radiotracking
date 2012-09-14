@@ -96,7 +96,7 @@ var TMap = {
     centerRTMap: function(id) {
 	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
 					      TMap.markers[id].point.lng);
-	TMap.center(position);
+//	TMap.center(position);
 	var previous_marker_id = TMap.findOverlainMarker();
 	if(previous_marker_id) {
 	    $("#rtdate" + previous_marker_id).css('color',
