@@ -1,14 +1,15 @@
 var TMap = {
     // markers, in order. Structure:
     // rt.id => {marker: the_marker, point: point, 
-    // title: title, active: t/f, overlay: t/f }
+    // title: title, active: t/f, overlay: null or overlay marker }
     markers: {},
     // gotta keep track of the order of the markers.... (fucking javascript)
     marker_arr: [],
     // any overlays extant. Structure:
     // rt.id => { overlay: the_overlay_marker }
-    overlays: {},
-    overlay_arr: [],
+    // sakra .... gone for now
+    // overlays: {},
+    // overlay_arr: [],
     polyline_arr: [],
     mutable_path_arr: [],
 
@@ -74,6 +75,16 @@ var TMap = {
         });
     },
 
+    // More appropriately - findFirstOverlainMarker
+    findOverlainMarker: function() {
+	for(i in TMap.marker_arr) {
+	    if(TMap.markers[i].overlay != null) {
+		return(i);
+	    }
+	}
+	return null;
+    },
+
     // Center map
     center: function(lat, lng){
 	TMap.map.setCenter(new google.maps.LatLng(lat, lng));
@@ -84,20 +95,15 @@ var TMap = {
 	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
 					      TMap.markers[id].point.lng);
 	TMap.center(position);
-	// for now clear all overlays
-	for(k in TMap.overlay_arr) {
-	    $("#rtdate" + k).css('color', TMap.normalLinkColor);
-	    TMap.overlays[k].overlay.setMap(null);
-	    TMap.markers[k].marker.setIcon(TMap.smallMarker);
-	    TMap.markers[k].overlay = false;
-	    delete TMap.overlays[k];
+	var previous_marker_id = TMap.findOverlainMarker();
+	if(previous_marker_id) {
+	    $("#rtdate" + previous_marker_id).css('color',
+						  TMap.normalLinkColor);
+	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
+	    TMap.markers[previous_marker_id].overlay.setMap(null);
+	    TMap.markers[previous_marker_id].overlay = null;
 	}
-	TMap.overlay_arr = [];
 	$("#rtdate" + id).css('color', TMap.specialLinkColor);
-	TMap.markers[id].marker.setIcon(TMap.animalFrame);
-	var title = TMap.markers[id].point.name + ": " +
-	    TMap.markers[id].point.lat + ", " +
-	    TMap.markers[id].point.lng;
 	TMap.overlaySmallImage(id, TMap.animalImage);
     },
 
@@ -122,6 +128,7 @@ var TMap = {
 	    );
     },
 
+    // A frame to the image is also included
     overlaySmallImage: function(id, image) {
 	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
 					      TMap.markers[id].point.lng);
@@ -129,18 +136,15 @@ var TMap = {
 					TMap.smallImageOptions.size.y);
 	var anchor = new google.maps.Point(TMap.smallImageOptions.anchor.x,
 					   TMap.smallImageOptions.anchor.y);
-	var markerImage = new google.maps.MarkerImage(TMap.animalImage, null,
+	var markerImage = new google.maps.MarkerImage(image, null,
 						      null, anchor, size);
-	TMap.overlays[id] = {
-	    overlay: new google.maps.Marker({
-		position: position,
-		map: TMap.map,
-		icon: image,
-		title: TMap.markers[id].title
-	    })
-	}
-	TMap.overlay_arr.push(id);
-	TMap.markers[id].overlay = true;
+	TMap.markers[id].marker.setIcon(TMap.animalFrame);
+	TMap.markers[id].overlay = new google.maps.Marker({
+	    position: position,
+	    map: TMap.map,
+	    icon: markerImage,
+	    title: TMap.markers[id].title
+	});
     },
 
     addPathMarker: function(i, point, last_one) {
@@ -153,15 +157,12 @@ var TMap = {
 	    icon: TMap.smallMarker,
 	    title: title
 	}
-	if(last_one) {
-	    marker_options.icon = TMap.animalFrame;
-	}
 	TMap.markers[point.id] = {
 	    marker: new google.maps.Marker(marker_options),
 	    point: point,
 	    title: title,
 	    active: true,
-	    overlay: false
+	    overlay: null
 	};
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
