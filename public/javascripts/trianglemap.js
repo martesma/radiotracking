@@ -78,8 +78,8 @@ var TMap = {
     // More appropriately - findFirstOverlainMarker
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
-	    if(TMap.markers[TMap.marker_arr[i]].overlay != null) {
-		alert("Marker " + TMap.marker_arr[1] + "found");
+	    if(TMap.markers[TMap.marker_arr[i]].overlay) {
+		alert("Marker " + TMap.marker_arr[1] + " found");
 		return(i);
 	    }
 	}
@@ -151,7 +151,7 @@ var TMap = {
 
     addPathMarker: function(i, point, last_one) {
 	var position = new google.maps.LatLng(point.lat, point.lng);
-	var title = point.name + ": " + point.lat + ", " + point.lng;
+	var title = point.id + " -- " + point.name + ": " + point.lat + ", " + point.lng;
 	var marker_options = {
 	    position: position,
 	    map: TMap.map,
