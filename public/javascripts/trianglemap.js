@@ -156,7 +156,7 @@ var TMap = {
 	    draggable: false,
 	    icon: TMap.smallMarker,
 	    title: title
-	}
+	};
 	TMap.markers[point.id] = {
 	    marker: new google.maps.Marker(marker_options),
 	    point: point,
@@ -164,7 +164,6 @@ var TMap = {
 	    active: true,
 	    overlay: null
 	};
-	alert(JSON.stringify(TMap.markers[point.id]));
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
 	    TMap.overlaySmallImage(point.id, TMap.animalImage);
@@ -186,11 +185,6 @@ var TMap = {
 	);
     },
 
-    addComplexPolyline: function(path) {
-
-    },
-
-    // Draw markers
     drawMarkers: function(json) {
 	$.each(json.points,
 	       function(i, point) {
