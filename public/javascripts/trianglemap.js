@@ -23,8 +23,8 @@ var TMap = {
 	size: { x: 28, y: 30 },
 	anchor: { x: 15, y: 48 }
     },
-    normalLinkColor: '#55ee08',
-    specialLinkColor: '#ee5508',
+    normalLinkColor: '55ee08',
+    specialLinkColor: 'ee5508',
 
     // options
     getOptions: function(latlng) {
