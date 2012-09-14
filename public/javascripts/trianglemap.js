@@ -106,7 +106,7 @@ var TMap = {
 //	    TMap.markers[previous_marker_id].overlay = null;
 	}
 	$("#rtdate" + id).css('color', TMap.specialLinkColor);
-	TMap.overlaySmallImage(id, TMap.animalImage);
+//	TMap.overlaySmallImage(id, TMap.animalImage);
     },
 
     // Clear markers and listeners
