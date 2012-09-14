@@ -79,11 +79,9 @@ var TMap = {
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
 	    if(TMap.markers[TMap.marker_arr[i]].overlay) {
-		alert("Marker " + TMap.marker_arr[i] + " found");
 		return(TMap.marker_arr[i]);
 	    }
 	}
-	alert("No marker found");
 	return null;
     },
 
@@ -102,6 +100,8 @@ var TMap = {
 	if(previous_marker_id) {
 	    $("#rtdate" + previous_marker_id).css('color',
 						  TMap.normalLinkColor);
+	    $("#rtdate" + previous_marker_id).css('font-size',
+						  '20px');
 	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
 	    TMap.markers[previous_marker_id].overlay.setMap(null);
 	    TMap.markers[previous_marker_id].overlay = null;
@@ -170,6 +170,7 @@ var TMap = {
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
 	    TMap.overlaySmallImage(point.id, TMap.animalImage);
+	    $("#rtdate" + point.id).css('color', TMap.specialLinkColor);
 	}
     },
 
