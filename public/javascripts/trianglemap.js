@@ -128,6 +128,13 @@ var TMap = {
 	    );
     },
 
+    drawMarkers: function(json) {
+	$.each(json.points,
+	       function(i, point) {
+		   TMap.addMarker(point);
+	       });
+    },
+
     // A frame to the image is also included
     overlaySmallImage: function(id, image) {
 	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
@@ -184,13 +191,6 @@ var TMap = {
 		map: TMap.map
 	    }
 	);
-    },
-
-    drawMarkers: function(json) {
-	$.each(json.points,
-	       function(i, point) {
-		   TMap.addMarker(point);
-	       });
     },
 
     drawPathMarkers: function(json) {

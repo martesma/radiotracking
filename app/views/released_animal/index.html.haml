@@ -2,6 +2,7 @@
 %br.clear
 %table
   %tr
+    %td &nbsp;
     %td Name
     %td ID
     %td Freq
@@ -16,6 +17,11 @@
     %td &nbsp;
   - @ras.each_index do |i|
     %tr{:class => "#{i % 2 == 0 ? 'paarisarv' : 'odd'}"}
+      %td
+        - if @ras[i].radiotrackings.count > 0
+          %a{:href => "/mapping/#{@ras[i].id}"} map
+        - else
+          &nbsp;
       %td
         %a{:href => "/released_animal/#{@ras[i].id}"}
           - if @ras[i].nickname.empty?
