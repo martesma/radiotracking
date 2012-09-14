@@ -1,5 +1,5 @@
 %a{:href => "javascript:TMap.centerRTMap(#{rt.id});"}
   = rt.date.strftime(STRFTIME)
-  %div{:id => "rtdetail#{rt.id}"}
-    = render :partial => 'rtdetail', :locals => { :rt => rt }
+%div{:id => "rtdetail#{rt.id}"}
+  = render :partial => 'rtdetail', :locals => { :rt => rt }
     
