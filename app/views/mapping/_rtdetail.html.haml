@@ -1,0 +1,19 @@
+.rtdetail
+  = "lat: #{rt.location_of_animal_N}"
+  %br
+  = "lng: #{rt.location_of_animal_E}"
+  %br
+  = "obs: #{rt.obser.observer}"
+  %br
+  = rt.biotope.biotope
+  %br
+  = rt.waterbody_type.waterbody_type
+  %br
+  = rt.distance_from_water.distance_from_water
+  %br
+  = "prec: #{rt.precipitation.precipitation}"
+  %br
+  = rt.temperature.temperature
+  %br
+  %a{:href => "/track/#{rt.id}", :target => "_blank"} more...
+  

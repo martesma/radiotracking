@@ -99,11 +99,13 @@ var TMap = {
 	var previous_marker_id = TMap.findOverlainMarker();
 	if(previous_marker_id) {
 	    $("#rtdate" + previous_marker_id).css('font-style', 'normal');
+	    $("#rtdetail" + previous_marker_id).css('display', 'none');
 	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
 	    TMap.markers[previous_marker_id].overlay.setMap(null);
 	    TMap.markers[previous_marker_id].overlay = null;
 	}
 	$("#rtdate" + id).css('font-style', 'italic');
+	$("#rtdetail" + id).css('display', 'block');
 	TMap.overlaySmallImage(id, TMap.animalImage);
     },
 
@@ -175,6 +177,7 @@ var TMap = {
 	if(last_one) {
 	    TMap.overlaySmallImage(point.id, TMap.animalImage);
 	    $("#rtdate" + point.id).css('font-style', 'italic');
+	    $("#rtdetail" + point.id).css('display', 'block');
 	}
     },
 

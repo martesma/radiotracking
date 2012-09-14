@@ -23,13 +23,13 @@
       %input{:type => "text", :name => "time", :id => "time",
              :value => "#{@rt.date.strftime(MYSQLTIME)}"}
     %p.clear
-      %label{:for => "location_of_animal_E"} Loc Animal E
-      %input{:type => "text", :name => "location_of_animal_E",
-             :value => "#{@rt.location_of_animal_E}"}
-    %p.clear
-      %label{:for => "location_of_animal_N"} Loc Animal N
+      %label{:for => "location_of_animal_N"} Loc Animal N (latitude)
       %input{:type => "text", :name => "location_of_animal_N",
              :value => "#{@rt.location_of_animal_N}"}
+    %p.clear
+      %label{:for => "location_of_animal_E"} Loc Animal E (longitude)
+      %input{:type => "text", :name => "location_of_animal_E",
+             :value => "#{@rt.location_of_animal_E}"}
     %p.clear
       %label{:for => "activity"} Activity
       = "<input type=\"checkbox\" name=\"activity\" #{@rt.activity ? 'checked=\"checked\"' : ''} />"

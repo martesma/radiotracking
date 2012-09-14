@@ -23,6 +23,7 @@
     #map_canvas
       
 :javascript
+  $("div[id^='rtdetail']").css('display', 'none');
   var data = {
       id: #{@ra.nil? ? 0 : @ra.id}
   }
