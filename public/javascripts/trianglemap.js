@@ -79,9 +79,11 @@ var TMap = {
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
 	    if(TMap.markers[TMap.marker_arr[i]].overlay != null) {
+		alert("Marker " + TMap.marker_arr[1] + "found");
 		return(i);
 	    }
 	}
+	alert("No marker found");
 	return null;
     },
 
