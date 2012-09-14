@@ -10,6 +10,9 @@
       %label{:for => "birthdate"} Birthdate
       %input{:type => "text", :name => "birthdate", :id => "birthdate"}
     %p.clear
+      %label{:for => "deathdate"} Deathdate
+      %input{:type => "text", :name => "deathdate", :id => "deathdate"}        
+    %p.clear
       %label{:for => "microchip"} Microchip
       %input{:type => "text", :name => "microchip"}
     %p.clear
@@ -38,12 +41,18 @@
       %input{:type => "text", :name => "release_location_E"}
   %br.clear
   %br.clear
-  %p.clear
-    %label{:for => "remarks"} Remarks
-    %textarea{:name => "remarks"}
+  #col1
+    %p.clear
+      %label{:for => "remarks"} Remarks
+      %textarea{:name => "remarks", :rows => 5, :cols => 40}
+  #col2
+    %p.clear
+      %label{:for => "cause_of_death"} Cause of Death
+      %textarea{:name => "cause_of_death", :rows => 5, :cols => 40}        
   %p.clear
     %input{:type => "submit", :value => "submit"}
 
 :javascript                                             
   $("#birthdate").datepicker({dateFormat:"yy-mm-dd"});
+  $("#deathdate").datepicker({dateFormat:"yy-mm-dd"});  
   $("#release_date").datepicker({dateFormat:"yy-mm-dd"});

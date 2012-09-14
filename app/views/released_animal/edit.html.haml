@@ -13,6 +13,10 @@
       %input{:type => "text", :name => "birthdate", :id => "birthdate",
              :value => "#{@ra.birthdate.strftime(MYSQLDATE)}"}
     %p.clear
+      %label{:for => "deathdate"} Deathdate
+      %input{:type => "text", :name => "deathdate", :id => "deathdate",
+             :value => "#{@ra.deathdate.strftime(MYSQLDATE)}"}        
+    %p.clear
       %label{:for => "microchip"} Microchip
       %input{:type => "text", :name => "microchip",
              :value => "#{@ra.microchip}"}
@@ -48,13 +52,20 @@
              :value => "#{@ra.release_location_E}"}
   %br.clear
   %br.clear
-  %p.clear
-    %label{:for => "remarks"} Remarks
-    %textarea{:name => "remarks"}
-      = @ra.remarks
+  #col1
+    %p.clear
+      %label{:for => "remarks"} Remarks
+      %textarea{:name => "remarks", :rows => 5, :cols => 40}
+        = @ra.remarks
+  #col2
+    %p.clear
+      %label{:for => "cause_of_death"} Cause of Death
+      %textarea{:name => "cause_of_death", :rows => 5, :cols => 40}
+        = @ra.cause_of_death
   %p.clear
     %input{:type => "submit", :value => "update"}
 
 :javascript                                                               
   $("#birthdate").datepicker({dateFormat:"yy-mm-dd"});
+  $("#deathdate").datepicker({dateFormat:"yy-mm-dd"});
   $("#release_date").datepicker({dateFormat:"yy-mm-dd"});

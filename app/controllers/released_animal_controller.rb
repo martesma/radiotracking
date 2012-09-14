@@ -10,6 +10,7 @@ class ReleasedAnimalController < ApplicationController
     params['release_location_E'] = params['release_location_E'].to_f
     params['release_location_N'] = params['release_location_N'].to_f
     params['birthdate'] = Time.now.strftime(MYSQLDATE) if params['birthdate'].empty?
+    params['deathdate'] = Time.now.years_since(101).strftime(MYSQLDATE) if params['deathdate'].empty?
     params['release_date'] = Time.now.strftime(MYSQLDATE) if params['release_date'].empty?
     ra = ReleasedAnimal.new(params)
     if ra.save
