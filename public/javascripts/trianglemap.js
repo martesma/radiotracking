@@ -101,9 +101,9 @@ var TMap = {
 	if(previous_marker_id) {
 	    $("#rtdate" + previous_marker_id).css('color',
 						  TMap.normalLinkColor);
-	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
-	    TMap.markers[previous_marker_id].overlay.setMap(null);
-	    TMap.markers[previous_marker_id].overlay = null;
+//	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
+//	    TMap.markers[previous_marker_id].overlay.setMap(null);
+//	    TMap.markers[previous_marker_id].overlay = null;
 	}
 	$("#rtdate" + id).css('color', TMap.specialLinkColor);
 	TMap.overlaySmallImage(id, TMap.animalImage);
