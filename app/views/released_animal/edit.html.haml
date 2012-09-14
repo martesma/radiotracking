@@ -55,11 +55,13 @@
   #col1
     %p.clear
       %label{:for => "remarks"} Remarks
+      %br
       %textarea{:name => "remarks", :rows => 5, :cols => 40}
         = @ra.remarks
   #col2
     %p.clear
       %label{:for => "cause_of_death"} Cause of Death
+      %br
       %textarea{:name => "cause_of_death", :rows => 5, :cols => 40}
         = @ra.cause_of_death
   %p.clear
