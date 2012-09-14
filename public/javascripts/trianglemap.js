@@ -78,7 +78,7 @@ var TMap = {
     // More appropriately - findFirstOverlainMarker
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
-	    if(TMap.markers[i].overlay != null) {
+	    if(TMap.markers.i.overlay != null) {
 		return(i);
 	    }
 	}
