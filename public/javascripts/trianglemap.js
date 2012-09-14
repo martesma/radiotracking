@@ -78,7 +78,7 @@ var TMap = {
     // More appropriately - findFirstOverlainMarker
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
-	    if(TMap.markers.i.overlay != null) {
+	    if(TMap.markers[i].overlay != null) {
 		return(i);
 	    }
 	}
@@ -164,6 +164,7 @@ var TMap = {
 	    active: true,
 	    overlay: null
 	};
+	alert(JSON.stringify(TMap.markers[point.id]));
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
 	    TMap.overlaySmallImage(point.id, TMap.animalImage);
