@@ -238,7 +238,7 @@ var TMap = {
 
     adjustPositionsDown: function() {
 	TMap.path_removals.forEach(function(pr, i) {
-	    if(pr.pos > i) {
+	    if(pr.pos < i) {
 		pr.pos -= 1;
 	    }
 	});
@@ -246,7 +246,7 @@ var TMap = {
 
     adjustPositionsUp: function() {
 	TMap.path_removals.forEach(function(pr, i) {
-	    if(pr.pos > i) {
+	    if(pr.pos <= i) {
 		pr.pos += 1;
 	    }
 	});
