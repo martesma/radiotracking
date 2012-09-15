@@ -221,6 +221,7 @@ var TMap = {
 	TMap.mutable_marker_arr.forEach(function(marker_id, index) {
 	    alert("Cycling through marker_ids - " + marker_id);
 	    if(id == marker_id) {
+		alert("So,returning index " + index);
 		return(index);
 	    }
 	});
