@@ -219,6 +219,7 @@ var TMap = {
 
     getIndexFromMutableMarkerId: function(id) {
 	TMap.mutable_marker_arr.forEach(function(marker_id, index) {
+	    alert("Cycling through marker_ids - " + marker_id);
 	    if(id == marker_id) {
 		return(index);
 	    }
