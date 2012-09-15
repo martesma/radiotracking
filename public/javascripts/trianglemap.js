@@ -223,6 +223,7 @@ var TMap = {
 	    TMap.markers[id].marker.setMap(TMap.map);
 	    $.ajax({
 		url: TMap.enableMarkerURL,
+		async: false,
 		type: "POST",
 		data: { id: id },
 		success: function(html) {
