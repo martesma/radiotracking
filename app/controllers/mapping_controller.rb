@@ -33,4 +33,14 @@ class MappingController < ApplicationController
     end
     render :json => json
   end
+
+  def enable_marker
+    rt = Radiotracking.find(params['id']);
+    render :partial => "rtdate", :locals => { :rt => rt }
+  end
+
+  def disable_marker
+    rt = Radiotracking.find(params['id']);
+    render :partial => "rtdatedisabled", :locals => { :rt => rt }
+  end
 end

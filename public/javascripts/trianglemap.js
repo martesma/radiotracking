@@ -16,6 +16,8 @@ var TMap = {
     // hovno
     triangleUrl: '/triangulate/map',
     basicPathUrl: '/mapping/basic_path',
+    enableMarkerURL: '/mapping/enable_marker',
+    disableMarkerURL: '/mapping/disable_marker',
     smallMarker: '/images/small_marker.png',
     animalFrame: '/images/map_flag3.png',
     animalImage: '/images/smaller_lutreola.png',
@@ -203,6 +205,14 @@ var TMap = {
 	if(TMap.markers[id].active) {
 	    TMap.markers[id].active = false;
 	    TMap.markers[id].marker.setMap(null);
+	    $.ajax({
+		url: TMap.disableMarkerURL,
+		type: "POST",
+		data: { id: id },
+		success: function(html) {
+		    $("#rtdate" + id).html(html);
+		}
+	    });
 	}
     },
 
@@ -210,6 +220,14 @@ var TMap = {
 	if(!TMap.markers[id].active) {
 	    TMap.markers[id].active = true;
 	    TMap.markers[id].marker.setMap(TMap.map);
+	    $.ajax({
+		url: TMap.enableMarkerURL,
+		type: "POST",
+		data: { id: id },
+		success: function(html) {
+		    $("#rtdate" + id).html(html);
+		}
+	    });
 	}
     },
 
