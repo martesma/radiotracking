@@ -265,7 +265,7 @@ var TMap = {
 	    TMap.path_removals.push({pos: index,
 				     marker: TMap.mutable_marker_arr.removeAt(index),
 				     path_point: TMap.mutable_path_arr.removeAt(index)});
-	    adjustPositionsDown(index);
+	    TMap.adjustPositionsDown(index);
 
 	    $.ajax({
 		url: TMap.disableMarkerURL,
@@ -291,7 +291,7 @@ var TMap = {
 	    TMap.mutable_path_arr.insertAt(path_removal.pos,
 					   path_removal.path_point);
 	    TMap.path_removals.removeAt(path_removal_index);
-	    adjustPositionsUp(path_removal.pos);
+	    TMap.adjustPositionsUp(path_removal.pos);
 
 	    $.ajax({
 		url: TMap.enableMarkerURL,
