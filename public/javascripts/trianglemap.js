@@ -5,13 +5,18 @@ var TMap = {
     markers: {},
     // gotta keep track of the order of the markers.... (fucking javascript)
     marker_arr: [],
+    // This will become a MVCArray, reflecting marker_arr at first
+    mutable_marker_arr: [],
     // any overlays extant. Structure:
     // rt.id => { overlay: the_overlay_marker }
     // sakra .... gone for now
     // overlays: {},
     // overlay_arr: [],
     polyline_arr: [],
+    // This is obviously a MVCArray and full of LatLngs as needed by Polylines.
     mutable_path_arr: [],
+    // { pos: pos, marker: marker_id, path_point: LatLng }
+    path_removals: [],
 
     // hovno
     triangleUrl: '/triangulate/map',
@@ -54,15 +59,6 @@ var TMap = {
     },
 
     // Eventually split all of this off from the simpler triangulation
-    createAnimalPath: function(json) {
-	var last_point = json.points[json.points.length - 1];
-	var latlng = new google.maps.LatLng(last_point.lat,
-					    last_point.lng);
-	TMap.map = new google.maps.Map(document.getElementById("map_canvas"),
-					TMap.getOptions(latlng));
-	TMap.drawPathMarkers(json);
-	TMap.drawPathLines(json);
-    },
 
     // Update the map
     update: function(json) {
@@ -75,23 +71,6 @@ var TMap = {
         google.maps.event.addListener(TMap.map, 'dblclick', function(event) {
 	    TMap.newSafePlace(event.latLng);
         });
-    },
-
-    // More appropriately - findFirstOverlainMarker
-    findOverlainMarker: function() {
-	for(i in TMap.marker_arr) {
-	    if(TMap.markers[TMap.marker_arr[i]].overlay) {
-		return(TMap.marker_arr[i]);
-	    }
-	}
-	return null;
-    },
-
-    // Center map
-    center: function(lat, lng) {
-	var zoom = TMap.map.getZoom();
-	TMap.map.setCenter(new google.maps.LatLng(lat, lng));
-	TMap.map.setZoom(zoom);
     },
 
     // Clear markers and listeners
@@ -123,7 +102,52 @@ var TMap = {
     },
 
     // The following functions focus on the route maps of the animals.
-    // This needs to be broken up into smaller functions
+    // utilities
+    getIndexFromMarkerId: function(id) {
+	$.each(marker_arr,
+	       function(i, m) {
+		   if(id == m) {
+		       return(i);
+		   }
+	       });
+	return(null);
+    },
+
+    getIndexFromMutableMarkerId: function(id) {
+	mutable_marker_arr.forEach(function(marker_id, index) {
+	    if(id = marker_id) {
+		return(index);
+	    }
+	});
+	return(null);
+    },
+
+    // More appropriately - findFirstOverlainMarker
+    findOverlainMarker: function() {
+	for(i in TMap.marker_arr) {
+	    if(TMap.markers[TMap.marker_arr[i]].overlay) {
+		return(TMap.marker_arr[i]);
+	    }
+	}
+	return null;
+    },
+
+    createAnimalPath: function(json) {
+	var last_point = json.points[json.points.length - 1];
+	var latlng = new google.maps.LatLng(last_point.lat,
+					    last_point.lng);
+	TMap.map = new google.maps.Map(document.getElementById("map_canvas"),
+					TMap.getOptions(latlng));
+	TMap.drawPathMarkers(json);
+	TMap.drawPathLines(json);
+    },
+
+    center: function(lat, lng) {
+	var zoom = TMap.map.getZoom();
+	TMap.map.setCenter(new google.maps.LatLng(lat, lng));
+	TMap.map.setZoom(zoom);
+    },
+
     centerRTMap: function(id) {
 	TMap.center(TMap.markers[id].point.lat,
 		    TMap.markers[id].point.lng);
@@ -140,7 +164,7 @@ var TMap = {
 	TMap.overlaySmallImage(id, TMap.animalImage);
     },
 
-    // A frame to the image is also included
+    // A frame to the image is also included here
     overlaySmallImage: function(id, image) {
 	var position = new google.maps.LatLng(TMap.markers[id].point.lat,
 					      TMap.markers[id].point.lng);
@@ -185,6 +209,7 @@ var TMap = {
 	    }
 	);
 	TMap.marker_arr.push(point.id);
+	TMap.mutable_marker_arr.push(point.id);
 	if(last_one) {
 	    TMap.overlaySmallImage(point.id, TMap.animalImage);
 	    $("#rtdate" + point.id).css('font-style', 'italic');
@@ -193,6 +218,7 @@ var TMap = {
     },
 
     drawPathMarkers: function(json) {
+	mutable_marker_arr = new google.maps.MVCArray();
 	$.each(json.points,
 	       function(i, point) {
 		   // This sucks.
@@ -201,6 +227,24 @@ var TMap = {
 	       });
     },
 
+    adjustPositionsDown: function() {
+	$.each(path_removals,
+	       function(i, pr) {
+		   if(pr.pos > i) {
+		       pr.pos -= 1;
+		   }
+	       });
+    }
+
+    adjustPositionsUp: function() {
+	$.each(path_removals,
+	       function(i, pr) {
+		   if(pr.pos > i) {
+		       pr.pos += 1;
+		   }
+	       });
+    }
+
     disableMarker: function(id) {
 	if(TMap.markers[id].active) {
 	    TMap.markers[id].active = false;
@@ -208,6 +252,14 @@ var TMap = {
 	    if(TMap.markers[id].overlay != null) {
 		TMap.markers[id].overlay.setMap(null);
 	    }
+
+	    // remove polyline point
+	    var index = TMap.getIndexFromMutableMarkerId(id);
+	    path_removals.push({pos: index,
+				marker: mutable_marker_arr.removeAt(index)
+				path_point: mutable_path_arr.removeAt(index)});
+	    adjustPositionsDown(index);
+
 	    $.ajax({
 		url: TMap.disableMarkerURL,
 		type: "POST",
@@ -224,6 +276,14 @@ var TMap = {
 	if(!TMap.markers[id].active) {
 	    TMap.markers[id].active = true;
 	    TMap.markers[id].marker.setMap(TMap.map);
+
+	    // restore polyline point
+	    var path_removal = TMap.getPathRemoval(id);
+	    TMap.mutable_marker_arr.insertAt(path_removal.pos, id);
+	    TMap.mutable_path_arr.insertAt(path_removal.pos,
+					   path_removal.path_point);
+	    adjustPositionsUp(path_removal.pos);
+
 	    $.ajax({
 		url: TMap.enableMarkerURL,
 		async: false,
@@ -246,6 +306,25 @@ var TMap = {
 	}
     },
 
+    drawPathLines: function(json) {
+	mutable_path_arr = new google.maps.MVCArray();
+	$.each(json.paths,
+	       function(i, path) {
+		   mutable_path_arr.push(new google.maps.LatLng(path.lat,
+								path.lng));
+	       });
+        var polyline = new google.maps.Polyline(
+	    {
+		path: mutable_path_arr,
+		strokeColor: "#00bb00",
+		strokeOpacity: 0.8,
+		strokeWeight: 2,
+		map: TMap.map
+	    }
+	);	
+    },
+
+    // Below is excrement
     addPolyline: function(path) {
         var polyline = new google.maps.Polyline(
 	    {
@@ -266,24 +345,6 @@ var TMap = {
 	       function(i, path) {
 		   TMap.addPolyline(path);
 	       });
-    },
-
-    drawPathLines: function(json) {
-	mutable_path_arr = new google.maps.MVCArray();
-	$.each(json.paths,
-	       function(i, path) {
-		   mutable_path_arr.push(new google.maps.LatLng(path.lat,
-								path.lng));
-	       });
-        var polyline = new google.maps.Polyline(
-	    {
-		path: mutable_path_arr,
-		strokeColor: "#00bb00",
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		map: TMap.map
-	    }
-	);	
     },
 
     markerClick: function(marker) {
