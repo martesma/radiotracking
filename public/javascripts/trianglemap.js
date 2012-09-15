@@ -205,6 +205,9 @@ var TMap = {
 	if(TMap.markers[id].active) {
 	    TMap.markers[id].active = false;
 	    TMap.markers[id].marker.setMap(null);
+	    if(TMap.markers[id].overlay != null) {
+		TMap.markers[id].overlay.setMap(null);
+	    }
 	    $.ajax({
 		url: TMap.disableMarkerURL,
 		type: "POST",
@@ -231,11 +234,12 @@ var TMap = {
 		}
 	    });
 	    // Unless this is the currently selected marker, the details
-	    // must be hidden.
-	    alert(TMap.markers[id].overlay);
+	    // must be hidden. Oh, and the ajax call above must not be
+	    // asynchronous because of the infestation.
 	    if(TMap.markers[id].overlay == null) {
 		$("#rtdate" + id).css('font-style', 'normal');
 		$("#rtdetail" + id).css('display', 'none');	    
+		TMap.markers[id].overlay.setMap(TMap.map);
 	    } else {
 		$("#rtdate" + id).css('font-style', 'italic');
 	    }
