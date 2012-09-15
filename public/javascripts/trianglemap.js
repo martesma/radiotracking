@@ -182,7 +182,7 @@ var TMap = {
 	    overlay: null
 	};
 	google.maps.event.addListener(
-	    TMap.markers[point.id],
+	    TMap.markers[point.id].marker,
 	    'click',
 	    function(event) {
 		alert('clicked!');
