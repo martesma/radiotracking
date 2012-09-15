@@ -202,14 +202,14 @@ var TMap = {
     disableMarker: function(id) {
 	if(TMap.markers[id].active) {
 	    TMap.markers[id].active = false;
-	    TMap.markers[id].setMap(null);
+	    TMap.markers[id].marker.setMap(null);
 	}
     },
 
     enableMarker: function(id) {
 	if(!TMap.markers[id].active) {
 	    TMap.markers[id].active = true;
-	    TMap.markers[id].setMap(TMap.map);
+	    TMap.markers[id].marker.setMap(TMap.map);
 	}
     },
 
