@@ -199,7 +199,7 @@ var TMap = {
     },
 
     drawPathMarkers: function(json) {
-	mutable_marker_arr = new google.maps.MVCArray();
+	TMap.mutable_marker_arr = new google.maps.MVCArray();
 	$.each(json.points,
 	       function(i, point) {
 		   // This sucks.
@@ -209,7 +209,7 @@ var TMap = {
     },
 
     getIndexFromMarkerId: function(id) {
-	$.each(marker_arr,
+	$.each(TMap.marker_arr,
 	       function(i, m) {
 		   if(id == m) {
 		       return(i);
@@ -219,7 +219,7 @@ var TMap = {
     },
 
     getIndexFromMutableMarkerId: function(id) {
-	mutable_marker_arr.forEach(function(marker_id, index) {
+	TMap.mutable_marker_arr.forEach(function(marker_id, index) {
 	    if(id = marker_id) {
 		return(index);
 	    }
@@ -228,7 +228,7 @@ var TMap = {
     },
 
     getPathRemovalIndex: function(id) {
-	path_removals.forEach(function(pr, i) {
+	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.marker == id) {
 		return(i);
 	    }
@@ -237,7 +237,7 @@ var TMap = {
     },
 
     adjustPositionsDown: function() {
-	path_removals.forEach(function(pr, i) {
+	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos > i) {
 		pr.pos -= 1;
 	    }
@@ -245,7 +245,7 @@ var TMap = {
     },
 
     adjustPositionsUp: function() {
-	path_removals.forEach(function(pr, i) {
+	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos > i) {
 		pr.pos += 1;
 	    }
@@ -262,9 +262,9 @@ var TMap = {
 
 	    // remove polyline point
 	    var index = TMap.getIndexFromMutableMarkerId(id);
-	    path_removals.push({pos: index,
-				marker: mutable_marker_arr.removeAt(index),
-				path_point: mutable_path_arr.removeAt(index)});
+	    TMap.path_removals.push({pos: index,
+				     marker: TMap.mutable_marker_arr.removeAt(index),
+				     path_point: TMap.mutable_path_arr.removeAt(index)});
 	    adjustPositionsDown(index);
 
 	    $.ajax({
@@ -286,10 +286,11 @@ var TMap = {
 
 	    // restore polyline point
 	    var path_removal_index = TMap.getPathRemovalIndex(id);
-	    var path_removal = path_removals.getAt(path_removal_index);
+	    var path_removal = TMap.path_removals.getAt(path_removal_index);
 	    TMap.mutable_marker_arr.insertAt(path_removal.pos, id);
 	    TMap.mutable_path_arr.insertAt(path_removal.pos,
 					   path_removal.path_point);
+	    TMap.path_removals.removeAt(path_removal_index);
 	    adjustPositionsUp(path_removal.pos);
 
 	    $.ajax({
@@ -315,15 +316,15 @@ var TMap = {
     },
 
     drawPathLines: function(json) {
-	mutable_path_arr = new google.maps.MVCArray();
+	TMap.mutable_path_arr = new google.maps.MVCArray();
 	$.each(json.paths,
 	       function(i, path) {
-		   mutable_path_arr.push(new google.maps.LatLng(path.lat,
-								path.lng));
+		   TMap.mutable_path_arr.push(new google.maps.LatLng(path.lat,
+								     path.lng));
 	       });
         var polyline = new google.maps.Polyline(
 	    {
-		path: mutable_path_arr,
+		path: TMap.mutable_path_arr,
 		strokeColor: "#00bb00",
 		strokeOpacity: 0.8,
 		strokeWeight: 2,
