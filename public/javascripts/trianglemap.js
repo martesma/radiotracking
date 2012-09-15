@@ -239,9 +239,9 @@ var TMap = {
 	    if(TMap.markers[id].overlay == null) {
 		$("#rtdate" + id).css('font-style', 'normal');
 		$("#rtdetail" + id).css('display', 'none');	    
-		TMap.markers[id].overlay.setMap(TMap.map);
 	    } else {
 		$("#rtdate" + id).css('font-style', 'italic');
+		TMap.markers[id].overlay.setMap(TMap.map);
 	    }
 	}
     },
