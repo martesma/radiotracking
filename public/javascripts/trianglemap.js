@@ -213,6 +213,7 @@ var TMap = {
 		    $("#rtdate" + id).html(html);
 		}
 	    });
+	    $("#rtdate" + id).css('font-style', 'normal');
 	}
     },
 
@@ -228,6 +229,14 @@ var TMap = {
 		    $("#rtdate" + id).html(html);
 		}
 	    });
+	    // Unless this is the currently selected marker, the details
+	    // must be hidden.
+	    if(!TMap.markers[id].overlay) {
+		$("#rtdate" + id).css('font-style', 'normal');
+		$("#rtdetail" + id).css('display', 'none');	    
+	    } else {
+		$("#rtdate" + id).css('font-style', 'italic');
+	    }
 	}
     },
 
