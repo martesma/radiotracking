@@ -231,6 +231,7 @@ var TMap = {
 	    });
 	    // Unless this is the currently selected marker, the details
 	    // must be hidden.
+	    alert(TMap.markers[id].overlay);
 	    if(TMap.markers[id].overlay == null) {
 		$("#rtdate" + id).css('font-style', 'normal');
 		$("#rtdetail" + id).css('display', 'none');	    
