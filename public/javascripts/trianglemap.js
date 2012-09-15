@@ -173,6 +173,13 @@ var TMap = {
 	    active: true,
 	    overlay: null
 	};
+	google.maps.event.addListener(
+	    TMap.markers[point.id],
+	    'click',
+	    function(event) {
+		TMap.centerRTMap(point.id);
+	    }
+	);
 	TMap.marker_arr.push(point.id);
 	if(last_one) {
 	    TMap.overlaySmallImage(point.id, TMap.animalImage);

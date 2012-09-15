@@ -15,7 +15,7 @@
     - if @rts.empty?
       No telemetry found.
     - else
-      - @rts.each do |rt|
+      - @rts.select { |rt| !rt.location_of_animal_N.zero? && !rt.location_of_animal_E.zero? }.each do |rt|
         %div{:id => "rtdate#{rt.id}"}
           = render :partial => 'rtdate', :locals => { :rt => rt }
 
