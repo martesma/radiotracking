@@ -162,7 +162,7 @@ var TMap = {
 	var marker_options = {
 	    position: position,
 	    map: TMap.map,
-	    draggable: false,
+	    clickable: true,
 	    icon: TMap.smallMarker,
 	    title: title
 	};
@@ -177,6 +177,7 @@ var TMap = {
 	    TMap.markers[point.id],
 	    'click',
 	    function(event) {
+		alert('clicked!');
 		TMap.centerRTMap(point.id);
 	    }
 	);
