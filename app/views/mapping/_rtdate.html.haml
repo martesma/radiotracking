@@ -1,5 +1,7 @@
 %a{:href => "javascript:TMap.centerRTMap(#{rt.id});"}
   = rt.date.strftime(STRFTIME)
+  %a{:href => "javascript:TMap.disableMarker(#{rt.id});",
+     :style => "font-size: smaller;"} remove
 %div{:id => "rtdetail#{rt.id}"}
   = render :partial => 'rtdetail', :locals => { :rt => rt }
     

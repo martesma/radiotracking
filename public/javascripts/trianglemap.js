@@ -92,23 +92,6 @@ var TMap = {
 	TMap.map.setZoom(zoom);
     },
 
-    // This needs to be broken up into smaller functions
-    centerRTMap: function(id) {
-	TMap.center(TMap.markers[id].point.lat,
-		    TMap.markers[id].point.lng);
-	var previous_marker_id = TMap.findOverlainMarker();
-	if(previous_marker_id) {
-	    $("#rtdate" + previous_marker_id).css('font-style', 'normal');
-	    $("#rtdetail" + previous_marker_id).css('display', 'none');
-	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
-	    TMap.markers[previous_marker_id].overlay.setMap(null);
-	    TMap.markers[previous_marker_id].overlay = null;
-	}
-	$("#rtdate" + id).css('font-style', 'italic');
-	$("#rtdetail" + id).css('display', 'block');
-	TMap.overlaySmallImage(id, TMap.animalImage);
-    },
-
     // Clear markers and listeners
     clearMarkers: function(){
 	for (i in TMap.markers){
@@ -135,6 +118,24 @@ var TMap = {
 	       function(i, point) {
 		   TMap.addMarker(point);
 	       });
+    },
+
+    // The following functions focus on the route maps of the animals.
+    // This needs to be broken up into smaller functions
+    centerRTMap: function(id) {
+	TMap.center(TMap.markers[id].point.lat,
+		    TMap.markers[id].point.lng);
+	var previous_marker_id = TMap.findOverlainMarker();
+	if(previous_marker_id) {
+	    $("#rtdate" + previous_marker_id).css('font-style', 'normal');
+	    $("#rtdetail" + previous_marker_id).css('display', 'none');
+	    TMap.markers[previous_marker_id].marker.setIcon(TMap.smallMarker);
+	    TMap.markers[previous_marker_id].overlay.setMap(null);
+	    TMap.markers[previous_marker_id].overlay = null;
+	}
+	$("#rtdate" + id).css('font-style', 'italic');
+	$("#rtdetail" + id).css('display', 'block');
+	TMap.overlaySmallImage(id, TMap.animalImage);
     },
 
     // A frame to the image is also included
@@ -189,6 +190,29 @@ var TMap = {
 	}
     },
 
+    drawPathMarkers: function(json) {
+	$.each(json.points,
+	       function(i, point) {
+		   // This sucks.
+		   var last_one = json.points.length == (i + 1) ? true : false;
+		   TMap.addPathMarker(i, point, last_one);
+	       });
+    },
+
+    disableMarker: function(id) {
+	if(TMap.markers[id].active) {
+	    TMap.markers[id].active = false;
+	    TMap.markers[id].setMap(null);
+	}
+    },
+
+    enableMarker: function(id) {
+	if(!TMap.markers[id].active) {
+	    TMap.markers[id].active = true;
+	    TMap.markers[id].setMap(TMap.map);
+	}
+    },
+
     addPolyline: function(path) {
         var polyline = new google.maps.Polyline(
 	    {
@@ -202,15 +226,6 @@ var TMap = {
 		map: TMap.map
 	    }
 	);
-    },
-
-    drawPathMarkers: function(json) {
-	$.each(json.points,
-	       function(i, point) {
-		   // This sucks.
-		   var last_one = json.points.length == (i + 1) ? true : false;
-		   TMap.addPathMarker(i, point, last_one);
-	       });
     },
 
     drawPolylines: function(json) {
