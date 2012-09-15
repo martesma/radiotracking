@@ -234,7 +234,7 @@ var TMap = {
 		       pr.pos -= 1;
 		   }
 	       });
-    }
+    },
 
     adjustPositionsUp: function() {
 	$.each(path_removals,
@@ -243,7 +243,7 @@ var TMap = {
 		       pr.pos += 1;
 		   }
 	       });
-    }
+    },
 
     disableMarker: function(id) {
 	if(TMap.markers[id].active) {
