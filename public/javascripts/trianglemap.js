@@ -237,19 +237,23 @@ var TMap = {
     },
 
     adjustPositionsDown: function() {
+	alert("About to adjust these down: " + JSON.stringify(TMap.path_removals));
 	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos < i) {
 		pr.pos -= 1;
 	    }
 	});
+	alert("Results: " + JSON.stringify(TMap.path_removals));
     },
 
     adjustPositionsUp: function() {
+	alert("About to adjust these up: " + JSON.stringify(TMap.path_removals));
 	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos <= i) {
 		pr.pos += 1;
 	    }
 	});
+	alert("Results: " + JSON.stringify(TMap.path_removals));
     },
 
     disableMarker: function(id) {
