@@ -16,7 +16,7 @@ var TMap = {
     // This is obviously a MVCArray and full of LatLngs as needed by Polylines.
     mutable_path_arr: [],
     // { pos: pos, marker: marker_id, path_point: LatLng }
-    path_removals: new google.maps.MVCArray(),
+    path_removals: [],
 
     // hovno
     triangleUrl: '/triangulate/map',
@@ -185,7 +185,6 @@ var TMap = {
 	    TMap.markers[point.id].marker,
 	    'click',
 	    function(event) {
-		alert('clicked!');
 		TMap.centerRTMap(point.id);
 	    }
 	);
@@ -224,6 +223,7 @@ var TMap = {
 		return(index);
 	    }
 	});
+	alert("getIndexFromMutableMarkerId returning null with id " + id);
 	return(null);
     },
 
@@ -233,27 +233,28 @@ var TMap = {
 		return(i);
 	    }
 	});
+	alert("getPathRemovalIndex returning null with id " + id);
 	return(null);
     },
 
     adjustPositionsDown: function() {
-	alert("About to adjust these down: " + JSON.stringify(TMap.path_removals));
+	alert("About to adjust these down: " + JSON.stringify(TMap.path_removals.getArray()));
 	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos < i) {
 		pr.pos -= 1;
 	    }
 	});
-	alert("Results: " + JSON.stringify(TMap.path_removals));
+	alert("Results: " + JSON.stringify(TMap.path_removals.getArray()));
     },
 
     adjustPositionsUp: function() {
-	alert("About to adjust these up: " + JSON.stringify(TMap.path_removals));
+	alert("About to adjust these up: " + JSON.stringify(TMap.path_removals.getArray()));
 	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos <= i) {
 		pr.pos += 1;
 	    }
 	});
-	alert("Results: " + JSON.stringify(TMap.path_removals));
+	alert("Results: " + JSON.stringify(TMap.path_removals.getArray()));
     },
 
     disableMarker: function(id) {
@@ -289,7 +290,7 @@ var TMap = {
 	    TMap.markers[id].marker.setMap(TMap.map);
 
 	    // restore polyline point
-	    alert("enableMarker: " + JSON.stringify(TMap.path_removals));
+	    alert("enableMarker: " + JSON.stringify(TMap.path_removals.getArray()));
 	    var path_removal_index = TMap.getPathRemovalIndex(id);
 	    var path_removal = TMap.path_removals.getAt(path_removal_index);
 	    TMap.mutable_marker_arr.insertAt(path_removal.pos, id);
