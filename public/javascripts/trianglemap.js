@@ -289,6 +289,7 @@ var TMap = {
 	    TMap.markers[id].marker.setMap(TMap.map);
 
 	    // restore polyline point
+	    alert("enableMarker: " + JSON.stringify(TMap.path_removals));
 	    var path_removal_index = TMap.getPathRemovalIndex(id);
 	    var path_removal = TMap.path_removals.getAt(path_removal_index);
 	    TMap.mutable_marker_arr.insertAt(path_removal.pos, id);
@@ -321,6 +322,7 @@ var TMap = {
 
     drawPathLines: function(json) {
 	TMap.mutable_path_arr = new google.maps.MVCArray();
+	TMap.path_removals = new google.maps.MVCArray();
 	$.each(json.paths,
 	       function(i, path) {
 		   TMap.mutable_path_arr.push(new google.maps.LatLng(path.lat,
