@@ -16,7 +16,7 @@ var TMap = {
     // This is obviously a MVCArray and full of LatLngs as needed by Polylines.
     mutable_path_arr: [],
     // { pos: pos, marker: marker_id, path_point: LatLng }
-    path_removals: [],
+    path_removals: new google.maps.MVCArray(),
 
     // hovno
     triangleUrl: '/triangulate/map',
@@ -103,25 +103,6 @@ var TMap = {
 
     // The following functions focus on the route maps of the animals.
     // utilities
-    getIndexFromMarkerId: function(id) {
-	$.each(marker_arr,
-	       function(i, m) {
-		   if(id == m) {
-		       return(i);
-		   }
-	       });
-	return(null);
-    },
-
-    getIndexFromMutableMarkerId: function(id) {
-	mutable_marker_arr.forEach(function(marker_id, index) {
-	    if(id = marker_id) {
-		return(index);
-	    }
-	});
-	return(null);
-    },
-
     // More appropriately - findFirstOverlainMarker
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
@@ -227,22 +208,48 @@ var TMap = {
 	       });
     },
 
-    adjustPositionsDown: function() {
-	$.each(path_removals,
-	       function(i, pr) {
-		   if(pr.pos > i) {
-		       pr.pos -= 1;
+    getIndexFromMarkerId: function(id) {
+	$.each(marker_arr,
+	       function(i, m) {
+		   if(id == m) {
+		       return(i);
 		   }
 	       });
+	return(null);
+    },
+
+    getIndexFromMutableMarkerId: function(id) {
+	mutable_marker_arr.forEach(function(marker_id, index) {
+	    if(id = marker_id) {
+		return(index);
+	    }
+	});
+	return(null);
+    },
+
+    getPathRemovalIndex: function(id) {
+	path_removals.forEach(function(pr, i) {
+	    if(pr.marker == id) {
+		return(i);
+	    }
+	});
+	return(null);
+    },
+
+    adjustPositionsDown: function() {
+	path_removals.forEach(function(pr, i) {
+	    if(pr.pos > i) {
+		pr.pos -= 1;
+	    }
+	});
     },
 
     adjustPositionsUp: function() {
-	$.each(path_removals,
-	       function(i, pr) {
-		   if(pr.pos > i) {
-		       pr.pos += 1;
-		   }
-	       });
+	path_removals.forEach(function(pr, i) {
+	    if(pr.pos > i) {
+		pr.pos += 1;
+	    }
+	});
     },
 
     disableMarker: function(id) {
@@ -256,7 +263,7 @@ var TMap = {
 	    // remove polyline point
 	    var index = TMap.getIndexFromMutableMarkerId(id);
 	    path_removals.push({pos: index,
-				marker: mutable_marker_arr.removeAt(index)
+				marker: mutable_marker_arr.removeAt(index),
 				path_point: mutable_path_arr.removeAt(index)});
 	    adjustPositionsDown(index);
 
@@ -278,7 +285,8 @@ var TMap = {
 	    TMap.markers[id].marker.setMap(TMap.map);
 
 	    // restore polyline point
-	    var path_removal = TMap.getPathRemoval(id);
+	    var path_removal_index = TMap.getPathRemovalIndex(id);
+	    var path_removal = path_removals.getAt(path_removal_index);
 	    TMap.mutable_marker_arr.insertAt(path_removal.pos, id);
 	    TMap.mutable_path_arr.insertAt(path_removal.pos,
 					   path_removal.path_point);
