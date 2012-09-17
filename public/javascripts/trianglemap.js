@@ -39,6 +39,7 @@ var TMap = {
 	    zoom: 15,
 	    center: latlng,
 	    scaleControl: true,
+	    streetViewControl: false,
 	    mapTypeId: google.maps.MapTypeId.SATELLITE,
 	    streetViewControl: false
 	} );
@@ -66,12 +67,6 @@ var TMap = {
 	TMap.clearMarkers();
 	TMap.drawMarkers(json);
 	TMap.setEvents();
-    },
-
-    setEvents: function(){
-        google.maps.event.addListener(TMap.map, 'dblclick', function(event) {
-	    TMap.newSafePlace(event.latLng);
-        });
     },
 
     // Clear markers and listeners
@@ -220,13 +215,13 @@ var TMap = {
 
     getIndexFromMutableMarkerId: function(id) {
 	TMap.mutable_marker_arr.forEach(function(marker_id, index) {
-	    alert("Cycling through marker_ids - " + marker_id);
+	    // alert("Cycling through marker_ids - " + marker_id);
 	    if(id == marker_id) {
-		alert("So,returning index " + index);
+		// alert("So,returning index " + index);
 		return(index);
 	    }
 	});
-	alert("getIndexFromMutableMarkerId returning null with id " + id);
+	// alert("getIndexFromMutableMarkerId returning null with id " + id);
 	return(null);
     },
 
@@ -236,28 +231,28 @@ var TMap = {
 		return(i);
 	    }
 	});
-	alert("getPathRemovalIndex returning null with id " + id);
+	// alert("getPathRemovalIndex returning null with id " + id);
 	return(null);
     },
 
     adjustPositionsDown: function() {
-	alert("About to adjust these down: " + JSON.stringify(TMap.path_removals.getArray()));
+	// alert("About to adjust these down: " + JSON.stringify(TMap.path_removals.getArray()));
 	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos < i) {
 		pr.pos -= 1;
 	    }
 	});
-	alert("Results: " + JSON.stringify(TMap.path_removals.getArray()));
+	// alert("Results: " + JSON.stringify(TMap.path_removals.getArray()));
     },
 
     adjustPositionsUp: function() {
-	alert("About to adjust these up: " + JSON.stringify(TMap.path_removals.getArray()));
+	// alert("About to adjust these up: " + JSON.stringify(TMap.path_removals.getArray()));
 	TMap.path_removals.forEach(function(pr, i) {
 	    if(pr.pos <= i) {
 		pr.pos += 1;
 	    }
 	});
-	alert("Results: " + JSON.stringify(TMap.path_removals.getArray()));
+	// alert("Results: " + JSON.stringify(TMap.path_removals.getArray()));
     },
 
     disableMarker: function(id) {
@@ -293,7 +288,7 @@ var TMap = {
 	    TMap.markers[id].marker.setMap(TMap.map);
 
 	    // restore polyline point
-	    alert("enableMarker: " + JSON.stringify(TMap.path_removals.getArray()));
+	    // alert("enableMarker: " + JSON.stringify(TMap.path_removals.getArray()));
 	    var path_removal_index = TMap.getPathRemovalIndex(id);
 	    var path_removal = TMap.path_removals.getAt(path_removal_index);
 	    TMap.mutable_marker_arr.insertAt(path_removal.pos, id);
