@@ -377,6 +377,7 @@ var TMap = {
     getNextPoint: function() {
 	TMap.animation.ratio += 1 / TMap.anim_resolution;
 	if(TMap.animation.ratio == 1) {
+	    alert('reached next marker');
 	    TMap.animation.cur += 1;
 	    TMap.animation.ratio = 0;
 	}
@@ -386,8 +387,10 @@ var TMap = {
     },
 
     doAnimation: function() {
+	alert('animation hash: ' + JSON.stringify(TMap.animation);
 	if(TMap.animation.cur < TMap.mutable_path_arr.getLength() - 1) {
 	    if(TMap.animation.marker != null) {
+		alert('clearing last marker');
 		TMap.animation.marker.setMap(null);
 		TMap.animation.overlay.setMap(null);
 	    }
