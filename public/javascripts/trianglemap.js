@@ -401,8 +401,9 @@ var TMap = {
 					    TMap.smallImageOptions.size.y);
 	    var anchor = new google.maps.Point(TMap.smallImageOptions.anchor.x,
 					       TMap.smallImageOptions.anchor.y);
-	    var markerImage = new google.maps.MarkerImage(image, null,
-							  null, anchor, size);
+	    var markerImage = new google.maps.MarkerImage(TMap.animalImage,
+							  null, null, anchor,
+							  size);
 	    TMap.animation.overlay = new google.maps.Marker({
 		position: TMap.animation.point,
 		map: TMap.map,
