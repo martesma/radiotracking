@@ -376,7 +376,7 @@ var TMap = {
 
     getNextPoint: function() {
 	TMap.animation.ratio += 1 / TMap.anim_resolution;
-	if(0.999 < TMap.animation.ratio < 1.003) {
+	if(0.999 < TMap.animation.ratio) {
 	    alert('reached next marker');
 	    TMap.animation.cur += 1;
 	    TMap.animation.ratio = 0;
@@ -413,7 +413,7 @@ var TMap = {
 		icon: markerImage
 	    });
 	} else {
-	    clearInterval(TMap.anim_interval_id);
+	    TMap.stopAnimation();
 	    TMap.resetAnimation();
 	}
     },
@@ -429,6 +429,8 @@ var TMap = {
 
     stopAnimation: function() {
 	clearInterval(TMap.anim_interval_id);
+	TMap.markers[active_id].marker.setIcon(TMap.animalFrame);
+	TMap.markers[active_id].overlay.setMap(TMap.map);
     },
 
     // Below is excrement
