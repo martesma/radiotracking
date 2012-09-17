@@ -355,7 +355,7 @@ var TMap = {
 
     // animation
     slope: function(latLng1, latLng2) {
-	return((latLng2.lng() - latLng1.lng()) /
+	return(-(latLng2.lng() - latLng1.lng()) /
 	       (latLng2.lat() - latLng1.lat()));
     },
 
