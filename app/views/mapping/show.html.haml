@@ -14,7 +14,7 @@
       #animation
         %button Start
         Speed
-        %span{:id => "speed"}
+        %div{:id => "speed"}
   #hitlist
     - if @rts.empty?
       No telemetry found.
@@ -31,7 +31,6 @@
   $(function() {
       $("button").button();
       $("button").click(function() {
-          alert($(this).html());
           var re = /Start/;
           $(this).html("<span class=\"ui-button-text\">" +
               (re.test($(this).html()) ? "Stop" : "Start") +
