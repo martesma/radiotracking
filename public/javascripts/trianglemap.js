@@ -376,7 +376,7 @@ var TMap = {
 
     getNextPoint: function() {
 	TMap.animation.ratio += 1 / TMap.anim_resolution;
-	if(TMap.animation.ratio == 1) {
+	if(0.999 < TMap.animation.ratio < 1.003) {
 	    alert('reached next marker');
 	    TMap.animation.cur += 1;
 	    TMap.animation.ratio = 0;
