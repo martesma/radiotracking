@@ -387,7 +387,7 @@ var TMap = {
     },
 
     doAnimation: function() {
-	alert('animation hash: ' + JSON.stringify(TMap.animation));
+	alert('animation hash: ' + TMap.animation.cur + " - " + TMap.animation.ratio);
 	if(TMap.animation.cur < TMap.mutable_path_arr.getLength() - 1) {
 	    if(TMap.animation.marker != null) {
 		alert('clearing last marker');
