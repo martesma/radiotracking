@@ -400,7 +400,7 @@ var TMap = {
 		TMap.animation.marker.setMap(null);
 		TMap.animation.overlay.setMap(null);
 	    }
-	    var TMap.animation.point = TMap.getNextPoint();
+	    TMap.animation.point = TMap.getNextPoint();
 	    TMap.animation.marker = new google.maps.Marker({
 		position: TMap.animation.point,
 		map: TMap.map,
