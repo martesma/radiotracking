@@ -421,7 +421,7 @@ var TMap = {
 	    clearInterval(TMap.anim_interval_id);
 	    TMap.resetAnimation();
 	}
-    }
+    },
 
     stopAnimation: function() {
 	clearInterval(TMap.anim_interval_id);
