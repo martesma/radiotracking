@@ -99,6 +99,25 @@ var TMap = {
 
     // The following functions focus on the route maps of the animals.
     // utilities
+
+    slope: function(latLng1, latLng2) {
+	return((latLng2.lng() - latLng1.lng()) /
+	       (latLng2.lat() - latLng1.lat()));
+    },
+
+    distance: function(latLng1, latLng2) {
+	return(Math.sqrt(Math.pow((latLng2.lat() - latLng1.lat()), 2) +
+			 Math.pow((latLng2.lng() - latLng2.lng()), 2)));
+    },
+
+    // Returns a LatLng which is ratio distance from latLng1 to latLng2
+    intermediateDistance: function(latLng1, latLng2, ratio) {
+	var angle = Math.atan(TMap.slope(latLng1, latLng2));
+	var dist = TMap.distance(latLng1, latLng2);
+	return(new google.maps.LatLng(latLng1.lat() + dist * Math.cos(angle),
+				      latLng1.lng() + dist * Math.sin(angle)));
+    },
+
     // More appropriately - findFirstOverlainMarker
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
