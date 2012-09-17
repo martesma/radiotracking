@@ -355,8 +355,8 @@ var TMap = {
 
     // animation
     slope: function(latLng1, latLng2) {
-	return(-(latLng2.lng() - latLng1.lng()) /
-	       (latLng2.lat() - latLng1.lat()));
+	return(-(latLng2.lat() - latLng1.lat()) /
+	       (latLng2.lng() - latLng1.lng()));
     },
 
     distance: function(latLng1, latLng2) {
@@ -390,7 +390,7 @@ var TMap = {
 	// alert('animation hash: ' + TMap.animation.cur + " - " + TMap.animation.ratio);
 	if(TMap.animation.cur < TMap.mutable_path_arr.getLength() - 1) {
 	    if(TMap.animation.marker != null) {
-		alert('clearing last marker');
+		// alert('clearing last marker');
 		TMap.animation.marker.setMap(null);
 		TMap.animation.overlay.setMap(null);
 	    }
