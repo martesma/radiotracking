@@ -380,8 +380,8 @@ var TMap = {
 	    TMap.animation.cur += 1;
 	    TMap.animation.ratio = 0;
 	}
-	var latLng1 = TMap.mutable_path_arr[TMap.animation.cur];
-	var latLng2 = TMap.mutable_path_arr[TMap.animation.cur + 1];
+	var latLng1 = TMap.mutable_path_arr.getAt(TMap.animation.cur);
+	var latLng2 = TMap.mutable_path_arr.getAt(TMap.animation.cur + 1);
 	return(TMap.intermediatePoint(latLng1, latLng2, TMap.animation.ratio));
     },
 
