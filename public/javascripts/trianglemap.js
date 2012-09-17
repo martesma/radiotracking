@@ -38,6 +38,7 @@ var TMap = {
 	return( {
 	    zoom: 15,
 	    center: latlng,
+	    scaleControl: true,
 	    mapTypeId: google.maps.MapTypeId.SATELLITE,
 	    streetViewControl: false
 	} );
