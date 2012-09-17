@@ -105,6 +105,14 @@ var TMap = {
     // The following functions focus on the route maps of the animals.
     // utilities
 
+    resetAnimation: function() {
+	TMap.animation.point = 	TMap.mutable_path_arr[0];
+	TMap.animation.marker = null;
+	TMap.animation.overlay = null;
+	TMap.animation.cur = 0;
+	TMap.animation.ratio = 0;
+    },
+    
     // More appropriately - findFirstOverlainMarker
     findOverlainMarker: function() {
 	for(i in TMap.marker_arr) {
@@ -346,14 +354,6 @@ var TMap = {
     },
 
     // animation
-    resetAnimation: function() {
-	TMap.animation.point = 	TMap.mutable_path_arr[0];
-	TMap.animation.marker = null;
-	TMap.animation.overlay = null;
-	TMap.animation.cur = 0;
-	TMap.animation.ratio = 0;
-    },
-    
     slope: function(latLng1, latLng2) {
 	return((latLng2.lng() - latLng1.lng()) /
 	       (latLng2.lat() - latLng1.lat()));
@@ -385,15 +385,6 @@ var TMap = {
 	return(TMap.intermediatePoint(latLng1, latLng2, TMap.animation.ratio));
     },
 
-    startAnimation: function() {
-	var active_id = TMap.findOverlainMarker();
-	if(active_id) {
-	    TMap.markers[active_id].marker.setIcon(TMap.smallMarker);
-	    TMap.markers[active_id].overlay.setMap(null);
-	}	
-	TMap.anim_interval_id = setInterval(doAnimation, 500);
-    },
-
     doAnimation: function() {
 	if(TMap.animation.cur < TMap.mutable_path_arr.getLength() - 1) {
 	    if(TMap.animation.marker != null) {
@@ -421,6 +412,15 @@ var TMap = {
 	    clearInterval(TMap.anim_interval_id);
 	    TMap.resetAnimation();
 	}
+    },
+
+    startAnimation: function() {
+	var active_id = TMap.findOverlainMarker();
+	if(active_id) {
+	    TMap.markers[active_id].marker.setIcon(TMap.smallMarker);
+	    TMap.markers[active_id].overlay.setMap(null);
+	}	
+	TMap.anim_interval_id = setInterval(TMap.doAnimation, 500);
     },
 
     stopAnimation: function() {
