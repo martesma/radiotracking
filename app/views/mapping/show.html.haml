@@ -12,6 +12,8 @@
       #microchip
         = "Chip: #{@ra.microchip}"
       #animation
+        %button Start
+        Speed
         %div{:id => "speed"}
   #hitlist
     - if @rts.empty?
@@ -26,6 +28,12 @@
       
 :javascript
   $("div[id^='rtdetail']").css('display', 'none');
+  $(function() {
+      $("button").button();
+      $("button").click(function() {
+          $(this).html($(this).html == "Start" ? "Stop" : "Start");
+      }
+  });
   $(function() {
       $("#speed").slider({min: 1, max: 10});
   });
