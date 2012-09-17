@@ -31,8 +31,8 @@
   $(function() {
       $("button").button();
       $("button").click(function() {
-          alert($(this).html());
-          $(this).html($(this).html() == "Start" ? "Stop" : "Start");
+          var re = /Start/;
+          $(this).html(re.test($(this).html()) ? "Stop" : "Start");
       });
   });
   $(function() {
