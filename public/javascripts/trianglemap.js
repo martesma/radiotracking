@@ -429,6 +429,7 @@ var TMap = {
 
     stopAnimation: function() {
 	clearInterval(TMap.anim_interval_id);
+	var active_id = TMap.findOverlainMarker();
 	TMap.markers[active_id].marker.setIcon(TMap.animalFrame);
 	TMap.markers[active_id].overlay.setMap(TMap.map);
     },
