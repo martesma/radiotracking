@@ -17,6 +17,11 @@ var TMap = {
     mutable_path_arr: [],
     // { pos: pos, marker: marker_id, path_point: LatLng }
     path_removals: [],
+    // { point: LatLng, marker: marker, overlay: marker,
+    // cur: path_id, ratio: ratio between cur and next }
+    animation: {},
+    anim_resolution: 10,
+    anim_interval_id: 0,
 
     // hovno
     triangleUrl: '/triangulate/map',
@@ -99,24 +104,6 @@ var TMap = {
 
     // The following functions focus on the route maps of the animals.
     // utilities
-
-    slope: function(latLng1, latLng2) {
-	return((latLng2.lng() - latLng1.lng()) /
-	       (latLng2.lat() - latLng1.lat()));
-    },
-
-    distance: function(latLng1, latLng2) {
-	return(Math.sqrt(Math.pow((latLng2.lat() - latLng1.lat()), 2) +
-			 Math.pow((latLng2.lng() - latLng2.lng()), 2)));
-    },
-
-    // Returns a LatLng which is ratio distance from latLng1 to latLng2
-    intermediateDistance: function(latLng1, latLng2, ratio) {
-	var angle = Math.atan(TMap.slope(latLng1, latLng2));
-	var dist = TMap.distance(latLng1, latLng2);
-	return(new google.maps.LatLng(latLng1.lat() + dist * Math.cos(angle),
-				      latLng1.lng() + dist * Math.sin(angle)));
-    },
 
     // More appropriately - findFirstOverlainMarker
     findOverlainMarker: function() {
@@ -354,7 +341,90 @@ var TMap = {
 		strokeWeight: 2,
 		map: TMap.map
 	    }
-	);	
+	);
+	TMap.resetAnimation();
+    },
+
+    // animation
+    resetAnimation: function() {
+	TMap.animation.point = 	TMap.mutable_path_arr[0];
+	TMap.animation.marker = null;
+	TMap.animation.overlay = null;
+	TMap.animation.cur = 0;
+	TMap.animation.ratio = 0;
+    },
+    
+    slope: function(latLng1, latLng2) {
+	return((latLng2.lng() - latLng1.lng()) /
+	       (latLng2.lat() - latLng1.lat()));
+    },
+
+    distance: function(latLng1, latLng2) {
+	return(Math.sqrt(Math.pow((latLng2.lat() - latLng1.lat()), 2) +
+			 Math.pow((latLng2.lng() - latLng2.lng()), 2)));
+    },
+
+    // Returns a LatLng which is ratio distance from latLng1 to latLng2
+    intermediatePoint: function(latLng1, latLng2, ratio) {
+	var angle = Math.atan(TMap.slope(latLng1, latLng2));
+	var dist = TMap.distance(latLng1, latLng2);
+	return(new google.maps.LatLng(latLng1.lat() +
+				      dist * ratio * Math.cos(angle),
+				      latLng1.lng() +
+				      dist * ratio * Math.sin(angle)));
+    },
+
+    getNextPoint: function() {
+	TMap.animation.ratio += 1 / TMap.anim_resolution;
+	if(TMap.animation.ratio == 1) {
+	    TMap.animation.cur += 1;
+	    TMap.animation.ratio = 0;
+	}
+	var latLng1 = TMap.mutable_path_arr[TMap.animation.cur];
+	var latLng2 = TMap.mutable_path_arr[TMap.animation.cur + 1];
+	return(TMap.intermediatePoint(latLng1, latLng2, TMap.animation.ratio));
+    },
+
+    startAnimation: function() {
+	var active_id = TMap.findOverlainMarker();
+	if(active_id) {
+	    TMap.markers[active_id].marker.setIcon(TMap.smallMarker);
+	    TMap.markers[active_id].overlay.setMap(null);
+	}	
+	TMap.anim_interval_id = setInterval(doAnimation, 500);
+    },
+
+    doAnimation: function() {
+	if(TMap.animation.cur < TMap.mutable_path_arr.getLength() - 1) {
+	    if(TMap.animation.marker != null) {
+		TMap.animation.marker.setMap(null);
+		TMap.animation.overlay.setMap(null);
+	    }
+	    var TMap.animation.point = TMap.getNextPoint();
+	    TMap.animation.marker = new google.maps.Marker({
+		position: TMap.animation.point,
+		map: TMap.map,
+		icon: TMap.animalFrame
+	    });
+	    var size = new google.maps.Size(TMap.smallImageOptions.size.x, 
+					    TMap.smallImageOptions.size.y);
+	    var anchor = new google.maps.Point(TMap.smallImageOptions.anchor.x,
+					       TMap.smallImageOptions.anchor.y);
+	    var markerImage = new google.maps.MarkerImage(image, null,
+							  null, anchor, size);
+	    TMap.animation.overlay = new google.maps.Marker({
+		position: TMap.animation.point,
+		map: TMap.map,
+		icon: markerImage
+	    });
+	} else {
+	    clearInterval(TMap.anim_interval_id);
+	    TMap.resetAnimation();
+	}
+    }
+
+    stopAnimation: function() {
+	clearInterval(TMap.anim_interval_id);
     },
 
     // Below is excrement

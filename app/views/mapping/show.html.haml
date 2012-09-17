@@ -13,7 +13,6 @@
         = "Chip: #{@ra.microchip}"
       #animation
         %button Start
-        Speed
         %div{:id => "speed"}
   #hitlist
     - if @rts.empty?
@@ -32,6 +31,11 @@
       $("button").button();
       $("button").click(function() {
           var re = /Start/;
+          if(re.test($(this).html())) {
+              TMap.stopAnimation();
+          } else {
+              TMap.startAnimation();
+          }
           $(this).html("<span class=\"ui-button-text\">" +
               (re.test($(this).html()) ? "Stop" : "Start") +
               "</span>");
