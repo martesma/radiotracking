@@ -31,6 +31,7 @@
   $(function() {
       $("button").button();
       $("button").click(function() {
+          alert($(this).html());
           var re = /Start/;
           $(this).html(re.test($(this).html()) ? "Stop" : "Start");
       });
