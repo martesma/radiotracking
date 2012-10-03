@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  skip_before_filter :authorize
+
   def animals
     csv = 
       "Nickname,Id,Frequency,Microchip Number,Sex,Birthdate,Release Date,Death Date,Release Site,Release Lat,Release Lng,Cause of Death,Remarks\r\n" +
