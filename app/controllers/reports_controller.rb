@@ -13,12 +13,22 @@ class ReportsController < ApplicationController
     render :text => csv
   end
 
-  # per animal report of radiotracking with animal data
+  # per animal report of radiotracking with complete animal data
   def general_report
     ra = ReleasedAnimal.find(params[:id])
     csv = radiotracking_header(true) +
       Radiotracking.find_all_by_released_animal_id(params[:id],
                                                    :order => [:date]).map { |r| rt(r, ra) }.join('\n')
+    render :text => csv
+  end
+
+  # per animal report of radiotracking with only animal data within 
+  # the radiotrackings table
+  def radiotracking
+    ra = ReleasedAnimal.find(params[:id])
+    csv = radiotracking_header +
+      Radiotracking.find_all_by_released_animal_id(params[:id],
+                                                   :order => [:date]).map { |r| rt(r) }.join('\n')
     render :text => csv
   end
 
