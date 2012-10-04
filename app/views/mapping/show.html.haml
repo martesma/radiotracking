@@ -11,9 +11,10 @@
         = "Freq: #{@ra.frequency}"
       #microchip
         = "Chip: #{@ra.microchip}"
-      / #animation
-        / %button Start
-        / %div{:id => "speed"}
+      -#
+        #animation
+          %button Start
+          %div{:id => "speed"}
   #hitlist
     - if @rts.empty?
       No telemetry found.
