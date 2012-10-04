@@ -40,8 +40,8 @@ class ReportsController < ApplicationController
       (ra ? "" : "\"#{rt.nickname.capitalize}\"," +
        "\"#{rt.released_animal.animal_id}\"," +
        "\"#{rt.frequency}\",") +
-      "\"#{rt.release_location_N}\"," +
-      "\"#{rt.release_location_E}\"," +
+      "\"#{rt.location_of_animal_N}\"," +
+      "\"#{rt.location_of_animal_E}\"," +
       "\"#{rt.obser.observer}\"," +
       "\"#{rt.biotope.biotope}\"," +
       "\"#{rt.distance_from_water.distance_from_water}\"," +
