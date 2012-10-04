@@ -46,7 +46,7 @@ class ReportsController < ApplicationController
       "\"#{rt.biotope.biotope}\"," +
       "\"#{rt.distance_from_water.distance_from_water}\"," +
       "\"#{rt.waterbody_type.waterbody_type}\"," +
-      "\"#{rt.water_level,water_level}\"," +
+      "\"#{rt.water_level.water_level}\"," +
       "\"#{rt.precipitation.precipitation}\"," +
       "\"#{rt.temperature.temperature}\"," +
       "\"#{(rt.activity ? "Active" : "Inactive")}\"," +
