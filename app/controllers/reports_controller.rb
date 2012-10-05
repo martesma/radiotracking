@@ -21,7 +21,9 @@ class ReportsController < ApplicationController
     csv = radiotracking_header(true) +
       Radiotracking.find_all_by_released_animal_id(params[:id],
                                                    :order => [:date]).map { |r| rt(r, ra) }.join('\n')
-    render :text => csv
+    filename = create_filename
+    File.open("/tmp/#{filename}", "w") { |f| f << csv }
+    send_file "/tmp/#{filename}", :filename => "report_#{ra.nickname}.txt"
   end
 
   # per animal report of radiotracking with only animal data within 
