@@ -4,7 +4,9 @@ class ReportsController < ApplicationController
   def animals
     csv = animal_header +
       ReleasedAnimal.all(:order => [:nickname]).map { |a| anim(a) }.join('\n')
-    render :text => csv
+    filename = create_filename
+    File.open("/tmp/#{filename}", "w") { |f| f << csv }
+    send_file "/tmp/#{filename}", :filename => "animals.txt"
   end
 
   def animal
@@ -77,5 +79,10 @@ class ReportsController < ApplicationController
       "\"#{ra.release_location_E}\"," +
       "\"#{ra.cause_of_death}\"," +
       "\"#{ra.remarks}\""
+  end
+
+  def create_filename
+    chars = ('a'..'z').to_a
+    1.upto(9).inject("") { |m, _| m += chars[rand(chars.size)] }
   end
 end

@@ -3,6 +3,7 @@
 %table
   %tr
     %td &nbsp;
+    %td &nbsp;
     %td Name
     %td ID
     %td Freq
@@ -22,6 +23,8 @@
           %a{:href => "/mapping/#{@ras[i].id}"} map
         - else
           &nbsp;
+      %td
+        = link_to "report", general_report_report_path(@ras[i].id), :remote => true
       %td
         %a{:href => "/released_animal/#{@ras[i].id}"}
           - if @ras[i].nickname.empty?
