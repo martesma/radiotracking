@@ -6,7 +6,7 @@ class ReportsController < ApplicationController
       ReleasedAnimal.all(:order => [:nickname]).map { |a| anim(a) }.join('\n')
     filename = create_filename
     File.open("/tmp/#{filename}", "w") { |f| f << csv }
-    send_file "/tmp/#{filename}", :filename => "animals.txt"
+    send_file "/tmp/#{filename}", :filename => "animals.csv"
   end
 
   def animal
@@ -23,7 +23,7 @@ class ReportsController < ApplicationController
                                                    :order => [:date]).map { |r| rt(r, ra) }.join('\n')
     filename = create_filename
     File.open("/tmp/#{filename}", "w") { |f| f << csv }
-    send_file "/tmp/#{filename}", :filename => "report_#{ra.nickname}.txt"
+    send_file "/tmp/#{filename}", :filename => "report_#{ra.nickname}.csv"
   end
 
   # per animal report of radiotracking with only animal data within 
