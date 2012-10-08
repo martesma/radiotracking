@@ -64,7 +64,7 @@ class ReportsController < ApplicationController
       "\"#{rt.precipitation.precipitation}\"," +
       "\"#{rt.temperature.temperature}\"," +
       "\"#{(rt.activity ? "Active" : "Inactive")}\"," +
-      "\"#{rt.remarks}\""
+      "\"#{rt.remarks.gsub(/(\r\n|\n)/," ")}\""
   end
 
   def anim(ra)
@@ -79,8 +79,8 @@ class ReportsController < ApplicationController
       "\"#{ra.release_site}\"," +
       "\"#{ra.release_location_N}\"," +
       "\"#{ra.release_location_E}\"," +
-      "\"#{ra.cause_of_death}\"," +
-      "\"#{ra.remarks}\""
+      "\"#{ra.cause_of_death.gsub(/(\r\n|\n)/," ")}\"," +
+      "\"#{ra.remarks.gsub(/(\r\n|\n)/," ")}\""
   end
 
   def create_filename
