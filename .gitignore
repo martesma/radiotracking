@@ -6,3 +6,4 @@ tmp/*
 *.back
 *.sql
 vendor/*
+database.yml

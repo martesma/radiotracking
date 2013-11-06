@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
 
   def animals
     csv = animal_header +
-      ReleasedAnimal.all(:order => [:nickname]).map { |a| anim(a) }.join('\n')
+      ReleasedAnimal.all(:order => [:nickname]).map { |a| anim(a) }.join("\n")
     filename = create_filename
     File.open("/tmp/#{filename}", "w") { |f| f << csv }
     send_file "/tmp/#{filename}", :filename => "animals.csv"
@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
     ra = ReleasedAnimal.find(params[:id])
     csv = radiotracking_header(true) +
       Radiotracking.find_all_by_released_animal_id(params[:id],
-                                                   :order => [:date]).map { |r| rt(r, ra) }.join('\n')
+                                                   :order => [:date]).map { |r| rt(r, ra) }.join("\n")
     filename = create_filename
     File.open("/tmp/#{filename}", "w") { |f| f << csv }
     send_file "/tmp/#{filename}", :filename => "report_#{ra.nickname}.csv"
@@ -32,7 +32,7 @@ class ReportsController < ApplicationController
     ra = ReleasedAnimal.find(params[:id])
     csv = radiotracking_header +
       Radiotracking.find_all_by_released_animal_id(params[:id],
-                                                   :order => [:date]).map { |r| rt(r) }.join('\n')
+                                                   :order => [:date]).map { |r| rt(r) }.join("\n")
     render :text => csv
   end
 

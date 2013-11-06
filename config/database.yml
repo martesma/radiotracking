@@ -32,14 +32,16 @@
 #  password: password
 #  socket: /var/tmp/mysql.sock
 development:
+  host: 127.0.0.1
   adapter: mysql
   encoding: utf8
-  reconnect: false
+#  reconnect: false
   database: martesma_saaremaa2012
-  pool: 5
+#  pool: 5
   username: martesma_polaris
   password: v0lecek
-  socket: /tmp/mysql.sock
+  port: 3306
+#   socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

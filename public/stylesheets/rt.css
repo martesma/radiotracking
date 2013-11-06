@@ -123,11 +123,21 @@ tr.paarisarv td {
   padding-bottom: 10px;
   font-weight: bold;
   font-size: larger; }
-  #mapping #animal #nickname, #mapping #animal #animal_id, #mapping #animal #frequency, #mapping #animal #microchip {
+  #mapping #animal #nickname, #mapping #animal #animal_id, #mapping #animal #frequency, #mapping #animal #microchip, #mapping #animal #animation {
     display: inline;
     padding-left: 20px; }
+  #mapping #animal #animation #speed {
+    width: 200px; }
 #mapping #hitlist {
-  float: left; }
+  float: left;
+  height: 500px;
+  width: 25%;
+  overflow: auto;
+  -webkit-scrollbar-width: 8px; }
 #mapping #map {
   float: left;
   padding-left: 20px; }
+
+.rtdetail {
+  font-size: smaller;
+  padding-left: 5px; }
