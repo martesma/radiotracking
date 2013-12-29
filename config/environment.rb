@@ -3,7 +3,7 @@ home = File.expand_path("/home/#{ENV['USER']}")
 ENV['GEM_PATH'] = "#{home}/ruby/gems:/usr/lib64/ruby/gems/1.8"
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
+# RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -17,9 +17,9 @@ Rails::Initializer.run do |config|
   # config.autoload_paths += %W( #{RAILS_ROOT}/extras )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
-  config.gem "haml", :version => ">=3.1.4"
-  config.gem "sass", :version => ">=3.1.19"
-  config.gem "json", :version => ">=1.6.6"
+  # config.gem "haml", :version => ">=3.1.4"
+  # config.gem "sass", :version => ">=3.1.19"
+  # config.gem "json", :version => ">=1.6.6"
   # config.gem "sass-rails", :version => ">=3.2.5"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
