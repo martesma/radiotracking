@@ -25,7 +25,7 @@
 
   #map
     #map_canvas
-      
+
 :javascript
   $("div[id^='rtdetail']").css('display', 'none');
   $(function() {
@@ -54,6 +54,7 @@
       data: data,
       dataType: 'json',
       success: function(json) {
+          alert(json);
           TMap.createAnimalPath(json);
       }
   });
