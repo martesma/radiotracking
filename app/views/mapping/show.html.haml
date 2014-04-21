@@ -10,7 +10,7 @@
       #frequency
         = "Freq: #{@ra.frequency}"
       #microchip
-        = "Chip: #{@ra.microchip}"
+        = "Le Chip: #{@ra.microchip}"
       -#
         #animation
           %button Start
@@ -54,7 +54,7 @@
       data: data,
       dataType: 'json',
       success: function(json) {
-          alert(json);
+          console.log(json);
           TMap.createAnimalPath(json);
       }
   });
